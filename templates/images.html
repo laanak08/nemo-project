@@ -1,0 +1,27 @@
+{% extends  "basic.html" %}
+
+{% block source_specific_styling %}
+
+	img {
+		float: left;
+		border-color: #444442;
+		border-style: solid;
+		border-width: 3px;
+	}
+
+	.caption {
+		float: right;
+	}
+
+{% endblock %}
+
+{% block main_content %}
+
+	{% for img in resp %}
+		<div class="post">
+			<img src="http://i.imgur.com/{{ img.id }}s.jpg">
+			<span class="caption">{{ img.title }}</span>
+		</div>
+	{% endfor %}
+
+{% endblock %}
