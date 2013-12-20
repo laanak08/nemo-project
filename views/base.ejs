@@ -4,11 +4,11 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>{{ title }}</title>
-	<meta name="description" content="{{ title }}">
-	<meta name="author" content="{{ author }}">
+	<title><%= title %></title>
+	<meta name="description" content="<%= title %>">
+	<meta name="author" content="<%= author %>">
 
-	<!-- <link rel="stylesheet" href="../css/{{styleSheetAddress}}"> --> 
+	<!-- <link rel="stylesheet" href="../css/<%=styleSheetAddress%>"> --> 
 	<style>
 		body {
 			margin: 0px;
@@ -81,11 +81,11 @@
 			float: left;
 			width: 2in;
 			color: #ddddd1;
-			display: block;
+			display: ;
 		}
 
 		section.main_content {
-			display: block;
+			display: ;
 			margin-left: auto;
 			margin-right: auto;
 			padding: 25px;
@@ -99,7 +99,7 @@
 		}
 
 		.post {
-			display: block;
+			display: ;
 			padding: 5px;
 			background-color: #121211; /* #272822; */
 
@@ -113,12 +113,10 @@
 			list-style-type: none;
 		}
 
-		{% block source_specific_styling %}
+		<%-  source_specific_styling %>
 			/* content-specific styling goes here */
-		{% endblock %}
-
 		footer {
-			display: block;
+			display: ;
 			margin: 0px;
 			padding: 0px;
 		}
@@ -145,16 +143,10 @@
 	</nav>
 	-->
 	<section class="main_content">
-		<h3 class="page_mix_name">{{ mix_name }}</h3>
-
-		{% block main_content %}
-
-		{% endblock%}
+		<h3 class="page_mix_name"><%= mix_name %></h3>
+		<%-  main_content %>
 	</section>
-	
-
 	<footer></footer>
-
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </body>
 </html>
