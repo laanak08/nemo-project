@@ -34,7 +34,7 @@ module.exports = function(db){
 					imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
 					images.push(imageObject);
 				}
-				res.render('index', { theBody: images });
+				res.render('images', { theBody: images });
 			});
 		}
 	};

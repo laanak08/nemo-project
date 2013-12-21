@@ -101,10 +101,6 @@ nav ul {
 	list-style-type: none;
 }
 
-{% block source_specific_styling %}
-	/* content-specific styling goes here */
-{% endblock %}
-
 footer {
 	display: block;
 	margin: 0px;
