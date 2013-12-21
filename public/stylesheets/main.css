@@ -1,3 +1,4 @@
+/*Hack to disable double tap zoom in*/
 html {
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
@@ -17,6 +18,10 @@ html {
 
 .green-bottom-boarder{
 	border-bottom: 5px solid #5da423;
+}
+
+.white{
+	background-color: white;
 }
 
 .post{
