@@ -1,9 +1,12 @@
 <% layout('base') -%>
 
 <% for (var i in theBody) {%>
-	<div class="post">
-		<img src="http://i.imgur.com/<%= theBody[i].id %>s.jpg">
-		<br>
-		<span class="caption"><%= theBody[i].title %></span>
+	<div class="row post">
+		<div class="large-3 large-offset-2 small-6 columns">
+			<img src="http://i.imgur.com/<%= theBody[i].id %>s.jpg" class="left">
+		</div>
+		<div class="large-4 small-6 columns left">
+			<span class="caption"><%= theBody[i].title %></span>
+		</div>
 	</div>
 <% } %>

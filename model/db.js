@@ -23,17 +23,28 @@ module.exports = function(){
 		Set up User Schema
 		- this should be taken out and put into a User class at some point
 	 * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - */
-	var spotSchema = mongoose.Schema({
-		name: {type: String, required:true},
-		longitude: {type: Number, required:true},
-		latitude: {type: Number, required:true}
+	var apiSchema = mongoose.Schema({
+		name: {type: String, required:true, unique: true },
+		url: {type: String, required:true},
+		guest_url: {type: String, required:true},
+		client_id: {type: String, required:true}
 	});
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		spots: [spotSchema]
+		// apis: [{
+		// 	oauth: {
+		// 		api: apiSchema,
+		// 		username: { type: String, required: true, unique: true },
+		// 		password: { type: String, required: true},
+		// 	}
+		// }]
 	});
+
+
+
+
 
 	userSchema.pre('save', function(next) {
 		var user = this;

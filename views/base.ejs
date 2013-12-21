@@ -3,38 +3,47 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-
 	<title>The Page</title>
 	<meta name="description" content="title">
 	<meta name="author" content="Marcelle">
 
-	<link rel="stylesheet" href="/stylesheets/style.css">
+	<link rel="stylesheet" href="/stylesheets/main.css">
+	<link rel="stylesheet" href="/foundation/css/foundation.css">
+
+	<script src="/foundation/js/modernizr.js"></script>
 </head>
 
 <body>
-	<header>
-		<nav class="topNav">
-			<ul>
-				<li><a href="#">Tailored</a></li>
-				<li><a href="#">New</a></li>
-				<li><a href="#">Favorites</a></li>
-			</ul>
-		</nav>
-	</header>
 
-	<!-- 
-	<nav class="sideNav">
-		<ul>
-			<li><a href="#">All Content</a></li>
-			<li><a href="#">Create New</a></li>
-		</ul>
-	</nav>
-	-->
-	<section class="main_content">
-		<h3 class="page_mix_name">Imgur</h3>
-		<%- body %>
-	</section>
-	<footer></footer>
+	<!-- Set Up Off Screen Canvas -->
+	<div class="off-canvas-wrap">
+		<div class="inner-wrap">
+
+			<!-- Include Responsive Navigation Bar -->
+			<%- include header.ejs %>
+
+			<!-- Main Content -->
+			<section class="main-section">
+				<div class="row">
+					<div class="large-12 columns">
+						<%- body %>
+					</div>
+				</div>
+			</section>
+
+		<a class="exit-off-canvas"></a>
+		</div>
+	</div>
+
+	<!-- Include Javascript -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="/foundation/js/foundation.min.js"></script>
+	<script src="/foundation/js/foundation/foundation.topbar.js"></script>
+
+	<!-- Initialize foundation -->
+	<script>
+		$(document).foundation();
+	</script>
+
 </body>
 </html>
