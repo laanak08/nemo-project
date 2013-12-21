@@ -2,6 +2,15 @@
 	background-color: #121211;
 }
 
+.left-shadow-boarder{
+	border-left: solid 1px #1a1a1a;
+	box-shadow: 1px 0 0 #4d4d4d;
+}
+
+.green-bottom-boarder{
+	border-bottom: 5px solid #5da423;
+}
+
 .post{
 	background: white;
 	padding: 2em;
