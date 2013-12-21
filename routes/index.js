@@ -1,14 +1,3 @@
-
-/*
- * GET home page.
- */
-/*
-
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
-};
-*/
-
 var request_module = require("request");
 var request = request_module.defaults({ json: true });
 
