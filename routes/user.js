@@ -1,8 +1,19 @@
+module.exports = function(db){
 
-/*
- * GET users listing.
- */
+	return {
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
+		login: function(req, res){
+			console.log('user got authenticated woot');
+		},
+
+		logout: function(req, res){
+			req.logout();
+			res.redirect('/');
+		},
+
+		signup: function(req, res){
+			db.saveUser(req, res);
+		}
+
+	};
 };

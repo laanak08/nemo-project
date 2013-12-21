@@ -4,7 +4,7 @@ module.exports = function(){
 		mongoose = require('mongoose');
 
 	// Connect to Mongo
-	var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/crumbs';
+	var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nemo';
 	mongoose.connect(uristring, function (err, res) {
 		if (err) {
 			console.log ('ERROR connecting to: ' + uristring + '. ' + err);
@@ -12,6 +12,7 @@ module.exports = function(){
 			console.log ('Succeeded connected to: ' + uristring);
 		}
 	});
+
 	var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function () {
