@@ -32,6 +32,7 @@ module.exports = function(db){
 					var imageObject = {};
 					imageObject.id = body.data[i].id;
 					imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
+					imageObject.title = body.data[i].title;
 					images.push(imageObject);
 				}
 				res.render('images', { theBody: images });
