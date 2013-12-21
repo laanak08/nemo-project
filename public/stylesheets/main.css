@@ -5,6 +5,8 @@ html {
 
 .main-section{
 	background-color: #121211;
+	height: 100vh;
+	overflow:scroll;
 }
 
 .left-shadow-boarder{

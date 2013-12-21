@@ -17,22 +17,24 @@
 <body>
 
 	<!-- Set Up Off Screen Canvas -->
-	<div class="off-canvas-wrap">
-		<div class="inner-wrap">
+	<div class="fixed">
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
 
-			<!-- Include Responsive Navigation Bar -->
-			<%- include header.ejs %>
+				<!-- Include Responsive Navigation Bar -->
+				<%- include header.ejs %>
 
-			<!-- Main Content -->
-			<section class="main-section">
-				<div class="row">
-					<div class="large-12 columns">
-						<%- body %>
+				<!-- Main Content -->
+				<section class="main-section">
+					<div class="row">
+						<div class="large-12 columns">
+							<%- body %>
+						</div>
 					</div>
-				</div>
-			</section>
+				</section>
 
-		<a class="exit-off-canvas"></a>
+			<a class="exit-off-canvas"></a>
+			</div>
 		</div>
 	</div>
 
@@ -40,7 +42,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/foundation/js/foundation.min.js"></script>
 	<script src="/foundation/js/foundation/foundation.topbar.js"></script>
-<script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
+	<script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
 	<!-- Initialize foundation -->
 	<script>
 		$(document).foundation();
