@@ -10,7 +10,7 @@ var express = require('express'),
 	engine = require('ejs-locals'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy,
-	bcrypt = require('bcrypt'),
+	// bcrypt = require('bcrypt'), // missing package.json line: "bcrypt": "~0.7.7",
 	SALT_WORK_FACTOR = 10,
 	mongoose = require('mongoose'),
 
