@@ -23,12 +23,19 @@
 
 				<!-- Include Responsive Navigation Bar -->
 				<%- include header.ejs %>
-
+				
 				<!-- Main Content -->
 				<section class="main-section">
 					<div class="row">
 						<div class="large-12 columns">
 							<%- body %>
+							<div id="loginOverlayContainer">
+								<div class="overlay"></div>
+								<div class="loginOverlay">
+									<p>Special box content ...</p> 
+  									<button id="overlayClose">Close Overlay</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>
@@ -43,7 +50,7 @@
 	<script src="/foundation/js/foundation.min.js"></script>
 	<script src="/foundation/js/foundation/foundation.topbar.js"></script>
 	<script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
-	<!-- <script src="/js/lib/oauth.js"></script> -->
+	<script src="/js/lib/oauth.js"></script>
 	<script src="/js/index.js"></script>
 	<!-- Initialize foundation -->
 	<script>

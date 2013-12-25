@@ -44,6 +44,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', indexRoute.index);
+var csrf_token = require('./routes/forge_token');
+app.get('/csrf_token',csrf_token.csrf_token);
 
 //app.post('/signup', userRoute.signup);
 //app.post('/login', auth.authenticate, userRoute.login);
