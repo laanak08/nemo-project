@@ -9,7 +9,9 @@ $(document).ready(function(){
 	// FIXME: use #authorizeAPI in future
 	// #signIn is just a convenient button to use for
 	// temporary testing of the api authorization functionality
-	$("#signIn").click(function(){
+	$("#signIn").click(function(e){
+		e.preventDefault();
+		
 		if( 'guest' === user ) {
 
 			// get csrf_token
