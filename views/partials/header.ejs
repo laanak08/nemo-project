@@ -20,11 +20,15 @@
 				<li class="active"><a href="#" class="success radius button">Tailored</a></li>
 				<li><a href="#">New</a></li>
 				<li><a href="#">Favorites</a></li>
-				<li><span id="signIn">Sign In</span><!--<a href="/signin" class="secondary button">Sign In</a> --></li>
+				<li><a href="/signin" class="secondary button" data-reveal-id="myModal">Sign In</a></li>
+				<!-- <span id="signIn">Sign In</span> -->
 			</ul>
 		</section>
 	</nav>
 </div>
+
+<%- include sign-in.ejs %>
+
 
 <aside class="left-off-canvas-menu">
 	<ul class="off-canvas-list">
@@ -32,3 +36,4 @@
 		<li><a href="#">Imgur</a></li>
 	</ul>
 </aside>
+

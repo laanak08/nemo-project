@@ -10,7 +10,7 @@ var express = require('express'),
 	engine = require('ejs-locals'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy,
-	// bcrypt = require('bcrypt'), // missing package.json line: "bcrypt": "~0.7.7",
+	bcrypt = require('bcrypt'),
 	SALT_WORK_FACTOR = 10,
 	mongoose = require('mongoose'),
 
@@ -29,7 +29,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({secret: "crumbs"}));
+app.use(express.session({secret: "nemo"}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
@@ -47,6 +47,8 @@ app.get('/', indexRoute.index);
 var csrf_token = require('./routes/forge_token');
 app.get('/csrf_token',csrf_token.csrf_token);
 app.post('/pull',indexRoute.pull);
+
+
 
 //app.post('/signup', userRoute.signup);
 //app.post('/login', auth.authenticate, userRoute.login);
