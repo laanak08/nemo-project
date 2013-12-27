@@ -81,11 +81,5 @@ function clear_and_render(posts) {
 
 		$postDisplay.append(structuredPost);
 		structuredPost = "";
-<<<<<<< HEAD
 	}
 }
-=======
-	}
-}
-
->>>>>>> 918f0ddd62eea0fbee1647cf828fe232acce2413
