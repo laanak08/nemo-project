@@ -48,11 +48,13 @@ var csrf_token = require('./routes/forge_token');
 app.get('/csrf_token',csrf_token.csrf_token);
 app.post('/pull',indexRoute.pull);
 
+app.get('/test', auth.ensureAuthenticated, function(req, res){
+	req.send('Hello');
+});
 
-
-//app.post('/signup', userRoute.signup);
-//app.post('/login', auth.authenticate, userRoute.login);
-//app.get('/logout', userRoute.logout);
+app.post('/sign-up', userRoute.signup);
+app.post('/login', auth.authenticate, userRoute.login);
+app.get('/logout', userRoute.logout);
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));

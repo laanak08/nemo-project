@@ -4,6 +4,10 @@ module.exports = function(){
 		mongoose = require('mongoose');
 
 	// Connect to Mongo
+	/*
+		If you start getting Mongo errors try wiping your Database:
+		mongo <dbname> --eval "db.dropDatabase()"
+	*/
 	var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nemo';
 	mongoose.connect(uristring, function (err, res) {
 		if (err) {
@@ -23,28 +27,22 @@ module.exports = function(){
 		Set up User Schema
 		- this should be taken out and put into a User class at some point
 	 * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - */
-	var apiSchema = mongoose.Schema({
-		name: {type: String, required:true, unique: true },
-		url: {type: String, required:true},
-		guest_url: {type: String, required:true},
-		client_id: {type: String, required:true}
+	var userApiSchema = mongoose.Schema({
+		api: {
+			name: {type: String},
+			url: {type: String},
+			guest_url: {type: String},
+			client_id: {type: String}
+		},
+		username: { type: String},
+		password: { type: String},
 	});
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		// apis: [{
-		// 	oauth: {
-		// 		api: apiSchema,
-		// 		username: { type: String, required: true, unique: true },
-		// 		password: { type: String, required: true},
-		// 	}
-		// }]
+		apis: [userApiSchema]
 	});
-
-
-
-
 
 	userSchema.pre('save', function(next) {
 		var user = this;
@@ -79,76 +77,15 @@ module.exports = function(){
 			newUser.save(function(err, newUser){
 				if(err) {
 					console.log(err);
-					res.send('{err: "Username already taken"}');
+					res.send('{err: "'+err+'"}');
 					return err;
 				}
 				console.log("new user: " + newUser.username);
-				res.send('{err: "", msg: "' + newUser.username +' has been added successfully."}');
-			});
-		},
-
-		getSpots: function(req, res){
-			User.findOne({ username: req.user.username }, function(err, user) {
-				if(err) {
-					console.log(err);
-					res.send('{err: "' + err + '"}');
-					return err;
-				}
-				var spotArray = user.spots;
-				res.send(spotArray);
-			});
-		},
-
-		addSpot: function(req, res){
-			User.findOne({ username: req.user.username }, function(err, user) {
-				user.spots.push(req.body);
-				user.save(function (err){
-					if(err){
-						console.log(err);
-						res.send('{err: ' + err + '}');
-						return err;
-					}
-					console.log((user.username + ' has added a spot').green);
-					res.send('{err: "", msg: "Spot has been added"}');
-				});
-			});
-		},
-
-		updateSpot: function(req, res){
-			User.findOne({ username: req.user.username }, function(err, user) {
-				var spot = user.spots.id(req.body._id);
-				//If the spot doesn't exist then create a new one
-				if(spot !== undefined) {
-					console.log(('Spot id not found for user ' + user.username).red);
-					res.send('{err: "No spot with this id", msg: "The id you sent does not match any stop id for this user."}');
-					return;
-				}
-				spot.name = req.body.name;
-				spot.longitude = req.body.longitude;
-				spot.latitude = req.body.latitude;
-
-				user.save(function (err){
-					if(err){
-						console.log(err);
-						res.send('{err: ' + err + '}');
-						return err;
-					}
-					res.send('{err: "", msg: "Spot has been updated"}');
-				});
-			});
-		},
-
-		deleteSpot: function(req, res){
-			User.findOne({ username: req.user.username }, function(err, user) {
-				var spot = user.spots.id(req.body.id).remove();
-				user.save(function (err){
-					if(err){
-						console.log(err);
-						res.send('{err: ' + err + '}');
-						return err;
-					}
-					res.send('{err: "", msg: "Spot has been deleted"}');
-				});
+				//Log user in after they have created an account
+				var db = require('./db');
+				var indexRoute = require('../routes/index')(db);
+				req.user = newUser;
+				indexRoute.index(req, res);
 			});
 		},
 	};

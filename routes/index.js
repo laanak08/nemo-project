@@ -17,6 +17,7 @@ contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function(req, res){
+			// console.log(req.user);
 			request( guestOptions, function callback(error, response, body) {
 				var images = [];
 				for( var i in body.data ){
@@ -28,7 +29,13 @@ module.exports = function(db){
 					imageObject.title = body.data[i].title;
 					images.push(imageObject);
 				}
-				res.render('images', { theBody: images });
+				if(!req.user){
+					console.log("no user");
+					res.render('images', { theBody: images, user: undefined });
+				}else{
+					console.log("user " + req.user);
+					res.render('images', { theBody: images, user: req.user });
+				}
 			});
 		},
 
@@ -37,9 +44,9 @@ module.exports = function(db){
 			var apiProvider = req.body.provider;
 
 			// if ( ! access_token) {
-			// 	access_token = { 
-			// 		oauth_token: req.body.oauth_token, 
-			// 		oauth_token_secret: req.body.oauth_token_secret 
+			// 	access_token = {
+			// 		oauth_token: req.body.oauth_token,
+			// 		oauth_token_secret: req.body.oauth_token_secret
 			// 	};
 			// }
 
