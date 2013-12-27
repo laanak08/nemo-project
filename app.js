@@ -48,7 +48,6 @@ app.post('/', userRoute.update);
 
 var csrf_token = require('./routes/forge_token');
 app.get('/csrf_token',csrf_token.csrf_token);
-app.post('/pull',indexRoute.pull);
 
 app.get('/admin', auth.ensureAuthenticated, function(req, res){
 	User.find({}, function (err, users) {
