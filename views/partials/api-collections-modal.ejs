@@ -1,7 +1,23 @@
+<style>
+	.apiChoices, .apiAuthenticate {
+		border-color: grey;
+		border-style: solid;
+		border-width: 3px;
+		padding: 5px;
+	}
+
+	.apiAuthenticate {
+		margin: 3px auto 3px auto;
+		text-align: center;
+		vertical-align: center;
+		width: 15%;
+	}
+</style>
+
 <div id="collection-modal" class="reveal-modal medium" data-reveal>
 	<div class="apiChoices">
-		<span class="apiAuthenticate">Imgur</span>
-		<span class="apiAuthenticate">Twitter</span>
+		<div id="imgurauth" class="apiAuthenticate">Imgur</div>
+		<div id="twitterauth" class="apiAuthenticate">Twitter</div>
 	</div>
 	<a class="close-reveal-modal">&#215;</a>
 </div>

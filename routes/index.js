@@ -3,31 +3,12 @@ var request = request_module.defaults({ json: true });
 var security = require('../lib/secure');
 var ApiHandler = require('../lib/apiHandler');
 
-var siteUrl = "https://api.imgur.com/3/gallery/hot/0";
-var clientID = "248a22763e9b17e";
-
-var guestOptions = {
-	url: siteUrl,
-	headers : {
-		'Authorization': 'Client-ID ' + clientID
-	}
-};
-
 contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function(req, res){
 			request( guestOptions, function callback(error, response, body) {
-				var images = [];
-				for( var i in body.data ){
-					if(i == contentPerPageLimit)
-						break;
-					var imageObject = {};
-					imageObject.id = body.data[i].id;
-					imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
-					imageObject.title = body.data[i].title;
-					images.push(imageObject);
-				}
+				var images = display_imgur_images(body);
 				if(!req.user){
 					console.log("no user");
 					res.render('images', { theBody: images, user: undefined });
@@ -49,18 +30,8 @@ module.exports = function(db){
 			// 	};
 			// }
 
-			ApiHandler.retrieveUser(access_token, apiProvider, function(body){
-				var images = [];
-				for( var i in body.data ){
-					// if(i == contentPerPageLimit)
-					// 	break;
-					var imageObject = {};
-					imageObject.id = body.data[i].id;
-					imageObject.title = body.data[i].title;
-					imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
-					console.log(imageObject);
-					images.push(imageObject);
-				}
+			ApiHandler.retrieveUser(access_token, apiProvider, function(data){
+				var images = display_imgur_images(data);
 				res.json({ theBody: images });
 			});
 
@@ -86,3 +57,17 @@ module.exports = function(db){
 		}
 	};
 };
+
+function display_imgur_images(body){
+	var images = [];
+	for( var i in body.data ){
+		// if(i == contentPerPageLimit)
+		// 	break;
+		var imageObject = {};
+		imageObject.id = body.data[i].id;
+		imageObject.title = body.data[i].title;
+		imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
+		images.push(imageObject);
+	}
+	return images;
+}
