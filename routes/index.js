@@ -3,6 +3,16 @@ var request = request_module.defaults({ json: true });
 var security = require('../lib/secure');
 var ApiHandler = require('../lib/apiHandler');
 
+var siteUrl = "https://api.imgur.com/3/gallery/hot/0";
+var clientID = "248a22763e9b17e";
+
+var guestOptions = {
+	url: siteUrl,
+	headers : {
+		'Authorization': 'Client-ID ' + clientID
+	}
+};
+
 contentPerPageLimit = 3;
 module.exports = function(db){
 	return {

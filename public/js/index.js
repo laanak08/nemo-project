@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('.apiAuthenticate').click(function(e){
 		e.preventDefault();
 		$(".close-reveal-modal").click();
-		var apiProvider = $(this).attr('id').replace('auth','');
+		var apiProvider = $(this).find("a").attr('id').replace('auth','');
 
 		// onload, default user assumed to be guest
 		// FIXME: store current user in cache. check there first to decide

@@ -6,18 +6,26 @@
 		padding: 5px;
 	}
 
-	.apiAuthenticate {
+	.apiAuthenticate, .apiAuthenticate > a {
 		margin: 3px auto 3px auto;
 		text-align: center;
 		vertical-align: center;
 		width: 15%;
 	}
+
+	.apiAuthenticate > a {
+		display: block;
+		margin: 0px;
+		padding: 0px;
+		width: 100%;
+		height: 100%;
+	}
 </style>
 
 <div id="collection-modal" class="reveal-modal medium" data-reveal>
 	<div class="apiChoices">
-		<div id="imgurauth" class="apiAuthenticate">Imgur</div>
-		<div id="twitterauth" class="apiAuthenticate">Twitter</div>
+		<div class="apiAuthenticate"><a id="imgurauth">Imgur</a></div>
+		<div class="apiAuthenticate"><a id="twitterauth">Twitter</a></div>
 	</div>
 	<a class="close-reveal-modal">&#215;</a>
 </div>
