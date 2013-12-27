@@ -82,11 +82,17 @@ module.exports = function(){
 				}
 				console.log("new user: " + newUser.username);
 				//Log user in after they have created an account
+				// This redirect is kind of a hack to make sure all of the
+				// api code goes in indexRoute.index
 				var db = require('./db');
 				var indexRoute = require('../routes/index')(db);
 				req.user = newUser;
 				indexRoute.index(req, res);
 			});
 		},
+		// addApi: function(userid, apiName, ){
+
+		// },
+
 	};
 }();

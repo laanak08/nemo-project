@@ -49,7 +49,7 @@ app.get('/csrf_token',csrf_token.csrf_token);
 app.post('/pull',indexRoute.pull);
 
 app.get('/test', auth.ensureAuthenticated, function(req, res){
-	req.send('Hello');
+	res.send('Hello');
 });
 
 app.post('/sign-up', userRoute.signup);
