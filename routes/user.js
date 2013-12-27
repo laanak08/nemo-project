@@ -15,6 +15,7 @@ module.exports = function(db){
 
 		update: function(req, res){
 			console.log(req.user);
+			// db.saveAPI(req.user, {}, yourcallback)
 			// var access_token = req.body.token;
 			// var apiProvider = req.body.provider;
 		}

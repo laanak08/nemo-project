@@ -84,9 +84,19 @@ module.exports = function(){
 				indexRoute.index(req, res);
 			});
 		},
-		addApi: function(userid, apiName, callback){
-			User.find();
+		saveApi: function(userData, apiData, callback){
+			User.findOne({username: userData.username}, function(err, user) {
+				if(err) return callback(err);
+				user.push({
+					name: apiData.name,
+					access_token: apiData.access_token
+				});
+				user.save(function(err){
+					if(err) return callback(err);
+					console.log("User Succeeded in adding API " + apiData.name);
+					callback(err, user);
+				});
+			});
 		},
-
 	};
 }();
