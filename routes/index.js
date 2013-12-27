@@ -1,7 +1,7 @@
 var request_module = require("request");
 var request = request_module.defaults({ json: true });
 var security = require('../lib/secure');
-var apiHandler = require('../lib/apiHandler');
+var ApiHandler = require('../lib/apiHandler');
 
 var siteUrl = "https://api.imgur.com/3/gallery/hot/0";
 var clientID = "248a22763e9b17e";
@@ -49,15 +49,7 @@ module.exports = function(db){
 			// 	};
 			// }
 
-			var options = {
-				url: "https://api.imgur.com/3/account/me/favorites",
-				headers : {
-					'Authorization': 'Bearer ' + access_token
-				}
-			};
-
-			request(options, function(error, response, body){
-				// console.log(body);
+			ApiHandler.retrieveUser(access_token, apiProvider, function(body){
 				var images = [];
 				for( var i in body.data ){
 					// if(i == contentPerPageLimit)
@@ -66,14 +58,11 @@ module.exports = function(db){
 					imageObject.id = body.data[i].id;
 					imageObject.title = body.data[i].title;
 					imageObject.url = "http://i.imgur.com/" + imageObject.id + "b.jpg";
+					console.log(imageObject);
 					images.push(imageObject);
 				}
 				res.json({ theBody: images });
 			});
-
-			// apiHandler.retrieveUser(access_token, apiProvider, function(data){
-			// 	console.log(data);
-			// });
 
 			// request.post({
 			// 	url: 'https://oauth.io/auth/access_token',
@@ -89,7 +78,7 @@ module.exports = function(db){
 			// 	if (check.error)
 			// 		return res.json(check);
 
-			// 	apiHandler.retrieveUser(body.access_token, apiProvider, function(data){
+			// 	ApiHandler.retrieveUser(body.access_token, apiProvider, function(data){
 			// 		console.log(data);
 			// 	});
 			// });

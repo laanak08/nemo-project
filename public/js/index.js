@@ -1,6 +1,6 @@
+'use strict';
 $(document).ready(function(){
 
-	'use strict';
 	// onload, default user assumed to be guest
 	// FIXME: store current user in cache. check there first to decide
 	// what to set user var to.
@@ -9,7 +9,9 @@ $(document).ready(function(){
 	// FIXME: use #authorizeAPI in future
 	// #signIn is just a convenient button to use for
 	// temporary testing of the api authorization functionality
-	$("#signIn").click(function(){
+	$("#signIn").click(function(e){
+		e.preventDefault();
+
 		if( 'guest' === user ) {
 
 			// get csrf_token
@@ -24,7 +26,7 @@ $(document).ready(function(){
 			// begin access_token requst process from api using oAuth.io module
 			OAuth.initialize('XjlzBRnDXCXYM9pRjBIisrXK8Kc');
 
-			var apiProvider = 'imgur';
+			var apiProvider = 'twitter';
 			OAuth.popup(apiProvider, { 'state' : csrf_token }, function(err, result) {
 				if(err) {
 					alert("error: " + error);
@@ -60,7 +62,7 @@ $(document).ready(function(){
 });
 
 function clear_and_render(posts) {
-	$postDisplay = $("#allPosts");
+	var $postDisplay = $("#allPosts");
 	$postDisplay.empty();
 
 	var structuredPost = "";
@@ -68,8 +70,7 @@ function clear_and_render(posts) {
 		structuredPost = "<div class='row post'>";
 
 		structuredPost += "<div class='large-3 large-offset-2 small-6 columns'>";
-		var postImg = "<img src='http://i.imgur.com/" + 
-			posts[i].id + "b.jpg' class='left'>";
+		var postImg = "<img src='" + posts[i].url + "b.jpg' class='left'>";
 		structuredPost += postImg + "</div>";
 
 		structuredPost += "<div class='large-4 small-6 columns left'>";
@@ -82,15 +83,3 @@ function clear_and_render(posts) {
 		structuredPost = "";
 	} 
 }
-
-// FIXME: OLD CODE to display over and login screen
-// 	/*
-// 	$("#signIn").click(function(){
-// 		$("#overlay").css({"opacity: .8"; display: block});
-// 		$("#loginOverlay").css({display: block});
-// 	});
-
-// 	$("#overlayClose").click(function(){
-// 		$("#overlay").css({display: none});
-// 		$("#loginOverlay").css({display: none});
-// 	}); */
