@@ -14,6 +14,7 @@ module.exports = function(db){
 		},
 
 		update: function(req, res){
+			console.log(req.user);
 			// var access_token = req.body.token;
 			// var apiProvider = req.body.provider;
 		}
