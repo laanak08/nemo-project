@@ -21,17 +21,21 @@
 				<li><a href="#">New</a></li>
 				<li><a href="#">Favorites</a></li>
 			<% if(user === undefined){ %>
-				<li><a href="#" class="secondary button" data-reveal-id="myModal">Sign In</a></li>
+				<li><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
 			<% } else { %>
 				<li class="has-dropdown">
 					<a href="#" class="secondary button">Welcome <%= user.username %></a>
 					<ul class="dropdown">
-						<li><a href="/logout" class="secondary button">Manage Collections</a></li>
+						<li><a href="/logout" class="secondary button" data-reveal-id="collection-model">Manage Collections</a></li>
 						<li><a href="/logout" class="alert button">Logout</a></li>
 					</ul>
 				</li>
+					<div id="collection-model" class="reveal-modal medium" data-reveal>
+						<h2>This is where all the api handling goes</h2>
+						<a class="close-reveal-modal">&#215;</a>
+					</div>
+					<div class="reveal-modal-bg" style="display: none"></div>
 			<% } %>
-				<!-- <span id="signIn">Sign In</span> -->
 			</ul>
 		</section>
 	</nav>
