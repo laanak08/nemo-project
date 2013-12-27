@@ -2,9 +2,7 @@ module.exports = function(db){
 
 	return {
 
-		login: function(req, res){
-			console.log('user got authenticated woot');
-		},
+		login: function(req, res){},
 
 		logout: function(req, res){
 			req.logout();
@@ -13,6 +11,11 @@ module.exports = function(db){
 
 		signup: function(req, res){
 			db.saveUser(req, res);
+		},
+
+		update: function(req, res){
+			// var access_token = req.body.token;
+			// var apiProvider = req.body.provider;
 		}
 
 	};

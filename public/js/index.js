@@ -1,17 +1,16 @@
 'use strict';
 $(document).ready(function(){
 
-	// onload, default user assumed to be guest
-	// FIXME: store current user in cache. check there first to decide
-	// what to set user var to.
-	var user = 'guest';
-	var csrf_token = '';
-	// FIXME: use #authorizeAPI in future
-	// #signIn is just a convenient button to use for
-	// temporary testing of the api authorization functionality
-	$(".apiAuthenticate").click(function(e){
+	$('.apiAuthenticate').click(function(e){
 		e.preventDefault();
-		// var apiProvider = $;
+		$(".close-reveal-modal").click();
+		var apiProvider = $(this).find("a").attr('id').replace('auth','');
+
+		// onload, default user assumed to be guest
+		// FIXME: store current user in cache. check there first to decide
+		// what to set user var to.
+		var user = 'guest';
+		var csrf_token = '';
 		if( 'guest' === user ) {
 
 			// get csrf_token
@@ -36,7 +35,7 @@ $(document).ready(function(){
 
 				$.ajax({
 					method: 'POST',
-					url: '/pull',
+					url: '/index',
 					data: {
 						token: result.access_token,
 						provider: apiProvider
@@ -58,6 +57,8 @@ $(document).ready(function(){
 			// restore session
 		}
 	});
+
+
 });
 
 function clear_and_render(posts) {
@@ -80,5 +81,11 @@ function clear_and_render(posts) {
 
 		$postDisplay.append(structuredPost);
 		structuredPost = "";
+<<<<<<< HEAD
 	}
 }
+=======
+	}
+}
+
+>>>>>>> 918f0ddd62eea0fbee1647cf828fe232acce2413
