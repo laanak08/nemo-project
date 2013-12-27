@@ -9,9 +9,9 @@ $(document).ready(function(){
 	// FIXME: use #authorizeAPI in future
 	// #signIn is just a convenient button to use for
 	// temporary testing of the api authorization functionality
-	$("#signIn").click(function(e){
+	$(".apiAuthenticate").click(function(e){
 		e.preventDefault();
-
+		// var apiProvider = $;
 		if( 'guest' === user ) {
 
 			// get csrf_token
@@ -26,7 +26,6 @@ $(document).ready(function(){
 			// begin access_token requst process from api using oAuth.io module
 			OAuth.initialize('XjlzBRnDXCXYM9pRjBIisrXK8Kc');
 
-			var apiProvider = 'twitter';
 			OAuth.popup(apiProvider, { 'state' : csrf_token }, function(err, result) {
 				if(err) {
 					alert("error: " + error);
