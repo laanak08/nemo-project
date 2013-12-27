@@ -20,10 +20,9 @@ module.exports = function(db){
 			request( guestOptions, function callback(error, response, body) {
 				var images = display_imgur_images(body);
 				if(!req.user){
-					console.log("no user");
 					res.render('images', { theBody: images, user: undefined });
 				}else{
-					console.log("user " + req.user);
+					
 					res.render('images', { theBody: images, user: req.user });
 				}
 			});

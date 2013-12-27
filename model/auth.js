@@ -47,6 +47,7 @@ module.exports = function(passport, LocalStrategy) {
 				req.logIn(user, function(err) {
 					if (err) { return next(err); }
 						console.log(user.username + " login successful");
+						
 						return res.redirect('/');
 				});
 			})(req, res, next);

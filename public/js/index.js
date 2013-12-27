@@ -35,7 +35,7 @@ $(document).ready(function(){
 
 				$.ajax({
 					method: 'POST',
-					url: '/pull',
+					url: '/index',
 					data: { 
 						token: result.access_token,
 						provider: apiProvider
