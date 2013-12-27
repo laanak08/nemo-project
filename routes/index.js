@@ -32,6 +32,11 @@ module.exports = function(db){
 					console.log("no user");
 					res.render('images', { theBody: images, user: undefined });
 				}else{
+					//User is logged in
+					// 1. get user from DB (db function)
+					// 2. check access_tokens
+					// 3. request api content
+					// 4. render content to ejs
 					console.log("user " + req.user);
 					res.render('images', { theBody: images, user: req.user });
 				}
@@ -39,6 +44,7 @@ module.exports = function(db){
 		},
 
 		pull: function(req, res){
+			console.log(req.user);
 			var access_token = req.body.token;
 			var apiProvider = req.body.provider;
 

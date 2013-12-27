@@ -38,7 +38,7 @@ $(document).ready(function(){
 				$.ajax({
 					method: 'POST',
 					url: '/pull',
-					data: { 
+					data: {
 						token: result.access_token,
 						provider: apiProvider
 					},
@@ -81,5 +81,5 @@ function clear_and_render(posts) {
 
 		$postDisplay.append(structuredPost);
 		structuredPost = "";
-	} 
+	}
 }
