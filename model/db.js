@@ -28,14 +28,8 @@ module.exports = function(){
 		- this should be taken out and put into a User class at some point
 	 * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - */
 	var userApiSchema = mongoose.Schema({
-		api: {
-			name: {type: String},
-			url: {type: String},
-			guest_url: {type: String},
-			client_id: {type: String}
-		},
-		username: { type: String},
-		password: { type: String},
+		name: {type: String},
+		access_token: {type: String},
 	});
 
 	var userSchema = mongoose.Schema({
@@ -90,9 +84,9 @@ module.exports = function(){
 				indexRoute.index(req, res);
 			});
 		},
-		// addApi: function(userid, apiName, ){
-
-		// },
+		addApi: function(userid, apiName, callback){
+			User.find();
+		},
 
 	};
 }();
