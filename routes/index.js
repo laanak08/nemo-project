@@ -16,20 +16,17 @@ var guestOptions = {
 contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
-		index: function(req, res){
-			console.log(req.user);
-			if(!req.user){
+		index: function( req, res){
+			console.log( req.user );
+			if( !req.user ){
 				request( guestOptions, function callback(error, response, body) {
 					var images = display_imgur_images(body);	
 					res.render('images', { theBody: images, user: undefined });
 				});
 			}else{
-				// 3. request api content
 				var response = [];
-				console.log(req.user);
-				// 1. get user from DB (db function)
-				for( i in req.user.apis ) {
-					// 2. FIXME:// check access_tokens from user account
+				for( var i = 0; i < req.user.apis.length; i++ ) {
+					// FIXME: ensure each user has at least one acces_token and apiProvider
 					var access_token = req.user.apis[i].access_token;
 					var apiProvider = req.user.apis[i].name;
 
@@ -39,9 +36,8 @@ module.exports = function(db){
 					});
 				}
 
-				console.log(response);
-				// 4. render content to ejs
-				res.render('posts',{ theBody: response });
+				// res.render('posts',{ theBody: response });
+				res.send(response);
 			}
 		}		
 	};
