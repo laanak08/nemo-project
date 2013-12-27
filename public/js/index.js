@@ -30,9 +30,7 @@ $(document).ready(function(){
 					alert("error: " + error);
 					return;
 				}
-
-				console.log(result.access_token);
-
+				
 				$.ajax({
 					method: 'POST',
 					url: '/',

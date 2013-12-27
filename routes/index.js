@@ -17,59 +17,33 @@ contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function(req, res){
-			request( guestOptions, function callback(error, response, body) {
-				var images = display_imgur_images(body);
-				if(!req.user){
-					res.render('images', { theBody: images, user: undefined });
-				}else{
-					//User is logged in
-					// 1. get user from DB (db function)
-					// 2. check access_tokens
-					// 3. request api content
-					// 4. render content to ejs
-					console.log("user " + req.user);
-					res.render('images', { theBody: images, user: req.user });
-				}
-			});
-		},
-
-		pull: function(req, res){
 			console.log(req.user);
-			var access_token = req.body.token;
-			var apiProvider = req.body.provider;
+			if(!req.user){
+				request( guestOptions, function callback(error, response, body) {
+					var images = display_imgur_images(body);	
+					res.render('images', { theBody: images, user: undefined });
+				});
+			}else{
+				// 3. request api content
+				var response = [];
+				console.log(req.user);
+				// 1. get user from DB (db function)
+				for( i in req.user.apis ) {
+					// 2. FIXME:// check access_tokens from user account
+					var access_token = req.user.apis[i].access_token;
+					var apiProvider = req.user.apis[i].name;
 
-			// if ( ! access_token) {
-			// 	access_token = {
-			// 		oauth_token: req.body.oauth_token,
-			// 		oauth_token_secret: req.body.oauth_token_secret
-			// 	};
-			// }
+					ApiHandler.retrieveUser(access_token, apiProvider, function(data){
+						var images = display_imgur_images(data);
+						response.push(images);
+					});
+				}
 
-			ApiHandler.retrieveUser(access_token, apiProvider, function(data){
-				var images = display_imgur_images(data);
-				res.json({ theBody: images });
-			});
-
-			// request.post({
-			// 	url: 'https://oauth.io/auth/access_token',
-			// 	form: {
-			// 		code: access_token,
-			// 		key: "XjlzBRnDXCXYM9pRjBIisrXK8Kc",            // The public key from oauth.io
-			// 		secret: "JeKgjN0lnoQ-evA6J4xNsX9So5o"         // The secret key from oauth.io
-			// 	}
-			// }, function (e,r,body) {
-			// 	console.log(body);
-			// 	var check = security.check(req, body.state);
-
-			// 	if (check.error)
-			// 		return res.json(check);
-
-			// 	ApiHandler.retrieveUser(body.access_token, apiProvider, function(data){
-			// 		console.log(data);
-			// 	});
-			// });
-
-		}
+				console.log(response);
+				// 4. render content to ejs
+				res.render('posts',{ theBody: response });
+			}
+		}		
 	};
 };
 
@@ -86,3 +60,30 @@ function display_imgur_images(body){
 	}
 	return images;
 }
+
+// if ( ! access_token) {
+// 	access_token = {
+// 		oauth_token: req.body.oauth_token,
+// 		oauth_token_secret: req.body.oauth_token_secret
+// 	};
+// }
+
+
+// request.post({
+// 	url: 'https://oauth.io/auth/access_token',
+// 	form: {
+// 		code: access_token,
+// 		key: "XjlzBRnDXCXYM9pRjBIisrXK8Kc",            // The public key from oauth.io
+// 		secret: "JeKgjN0lnoQ-evA6J4xNsX9So5o"         // The secret key from oauth.io
+// 	}
+// }, function (e,r,body) {
+// 	console.log(body);
+// 	var check = security.check(req, body.state);
+
+// 	if (check.error)
+// 		return res.json(check);
+
+// 	ApiHandler.retrieveUser(body.access_token, apiProvider, function(data){
+// 		console.log(data);
+// 	});
+// });
