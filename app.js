@@ -48,8 +48,15 @@ var csrf_token = require('./routes/forge_token');
 app.get('/csrf_token',csrf_token.csrf_token);
 app.post('/pull',indexRoute.pull);
 
-app.get('/test', auth.ensureAuthenticated, function(req, res){
-	res.send('Hello');
+app.get('/admin', auth.ensureAuthenticated, function(req, res){
+	User.find({}, function (err, users) {
+		var userMap = {};
+		users.forEach(function(user) {
+			userMap[user._id] = user;
+		});
+		console.log(userMap);
+		res.render('admin', {users: userMap});
+	});
 });
 
 app.post('/sign-up', userRoute.signup);

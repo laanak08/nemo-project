@@ -1,0 +1,9 @@
+<% layout('admin_base') -%>
+<div class="row">
+	<div class="large-12 columns">
+		<% for (property in users) { %>
+			<%= users[property].username %><br>
+			<br>
+		<% } %>
+	</div>
+</div>

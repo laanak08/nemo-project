@@ -1,0 +1,57 @@
+<!--
+
+This is the Admin panel that will allow admin users to see and interact
+with the site's database.
+
+-->
+
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Nemo</title>
+	<meta name="description" content="title">
+	<meta name="author" content="Marcelle">
+	<meta name="viewport" content="width=device-width" />
+
+	<link rel="stylesheet" href="/stylesheets/main.css">
+	<link rel="stylesheet" href="/foundation/css/foundation.css">
+
+	<script src="/foundation/js/modernizr.js"></script>
+</head>
+
+<body>
+
+	<!-- Set Up Off Screen Canvas -->
+	<div class="fixed">
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
+
+				<!-- Include Responsive Navigation Bar -->
+				<%- include partials/admin_header.ejs %>
+
+				<!-- Main Content -->
+				<section class="admin-section">
+					<%- body %>
+				</section>
+
+			<a class="exit-off-canvas"></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Include Javascript -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="/foundation/js/foundation.min.js"></script>
+	<script src="/foundation/js/foundation/foundation.topbar.js"></script>
+	<script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
+	<script src="/js/lib/oauth.js"></script>
+	<script src="/js/index.js"></script>
+	<!-- Initialize foundation -->
+	<script>
+		$(document).foundation();
+	</script>
+
+</body>
+</html>

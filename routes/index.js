@@ -17,7 +17,6 @@ contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function(req, res){
-			// console.log(req.user);
 			request( guestOptions, function callback(error, response, body) {
 				var images = [];
 				for( var i in body.data ){
