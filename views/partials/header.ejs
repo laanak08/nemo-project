@@ -22,6 +22,7 @@
 				<li><a href="#">Favorites</a></li>
 			<% if(user === undefined){ %>
 				<li><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
+				<%- include sign-in-modal.ejs %>
 			<% } else { %>
 				<li class="has-dropdown">
 					<a href="#" class="secondary button">Welcome <%= user.username %></a>
@@ -30,18 +31,13 @@
 						<li><a href="/logout" class="alert button">Logout</a></li>
 					</ul>
 				</li>
-					<div id="collection-model" class="reveal-modal medium" data-reveal>
-						<h2>This is where all the api handling goes</h2>
-						<a class="close-reveal-modal">&#215;</a>
-					</div>
-					<div class="reveal-modal-bg" style="display: none"></div>
+				<%- include api-collections-model.ejs %>
 			<% } %>
 			</ul>
 		</section>
 	</nav>
 </div>
 
-<%- include sign-in-modal.ejs %>
 
 
 <aside class="left-off-canvas-menu">
