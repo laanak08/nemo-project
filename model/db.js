@@ -6,7 +6,7 @@ module.exports = function(){
 	// Connect to Mongo
 	/*
 		If you start getting Mongo errors try wiping your Database:
-		mongo <dbname> --eval "db.dropDatabase()"
+		mongo nemo --eval "db.dropDatabase()"
 	*/
 	var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nemo';
 	mongoose.connect(uristring, function (err, res) {
@@ -87,7 +87,7 @@ module.exports = function(){
 		saveApi: function(userData, apiData, callback){
 			User.findOne({username: userData.username}, function(err, user) {
 				if(err) return callback(err);
-				user.push({
+				user.apis.push({
 					name: apiData.name,
 					access_token: apiData.access_token
 				});

@@ -14,10 +14,18 @@ module.exports = function(db){
 		},
 
 		update: function(req, res){
-			console.log(req.user);
-			// db.saveAPI(req.user, {}, yourcallback)
-			// var access_token = req.body.token;
-			// var apiProvider = req.body.provider;
+			var access_token = req.body.token;
+			var apiProvider = req.body.provider;
+
+			console.log(access_token + " " + apiProvider);
+
+			db.saveApi(req.user, {
+				name: apiProvider,
+				access_token: access_token
+			}, function(err, user){
+				console.log("saved to user: " + user);
+				res.send("here");
+			});
 		}
 
 	};
