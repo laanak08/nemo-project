@@ -10,7 +10,15 @@ module.exports = function(db){
 		},
 
 		signup: function(req, res){
-			db.saveUser(req, res);
+			db.saveUser(req.body, function(err, user){
+				if(err){
+					console.log(err);
+					return res.send('problems');
+				}
+				var indexRoute = require('../routes/index')(db);
+				req.user = user;
+				indexRoute.index(req, res);
+			});
 		},
 
 		update: function(req, res){

@@ -65,23 +65,18 @@ module.exports = function(){
 
 	return {
 		// PUBLIC FUNCTIONS
-		saveUser: function( req, res ){
-			var userObj = req.body;
-			var newUser = new User(userObj);
+		saveUser: function(body, callback){
+			var newUser = new User({
+				username: body.username,
+				password: body.password
+			});
 			newUser.save(function(err, newUser){
 				if(err) {
 					console.log(err);
-					res.send('{err: "'+err+'"}');
-					return err;
+					return callback(err);
 				}
 				console.log("new user: " + newUser.username);
-				//Log user in after they have created an account
-				// This redirect is kind of a hack to make sure all of the
-				// api code goes in indexRoute.index
-				var db = require('./db');
-				var indexRoute = require('../routes/index')(db);
-				req.user = newUser;
-				indexRoute.index(req, res);
+				callback(null, newUser);
 			});
 		},
 		saveApi: function(userData, apiData, callback){
@@ -94,7 +89,7 @@ module.exports = function(){
 				user.save(function(err){
 					if(err) return callback(err);
 					console.log("User Succeeded in adding API " + apiData.name);
-					callback(err, user);
+					callback(null, user);
 				});
 			});
 		},
