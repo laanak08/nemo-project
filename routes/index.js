@@ -17,13 +17,13 @@ contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function( req, res){
-			console.log( req.user );
 			if( !req.user ){
 				request( guestOptions, function callback(error, response, body) {
-					var images = display_imgur_images(body);	
+					var images = display_imgur_images(body);
 					res.render('images', { theBody: images, user: undefined });
 				});
 			}else{
+
 				var response = [];
 				for( var i = 0; i < req.user.apis.length; i++ ) {
 					// FIXME: ensure each user has at least one acces_token and apiProvider
@@ -36,10 +36,9 @@ module.exports = function(db){
 					});
 				}
 
-				// res.render('posts',{ theBody: response });
-				res.send(response);
+				res.render('posts',{ theBody: response });
 			}
-		}		
+		}
 	};
 };
 
@@ -47,7 +46,7 @@ function display_imgur_images(body){
 	var images = [];
 	for( var i in body.data ){
 		// if(i == contentPerPageLimit)
-		// 	break;
+		//	break;
 		var imageObject = {};
 		imageObject.id = body.data[i].id;
 		imageObject.title = body.data[i].title;

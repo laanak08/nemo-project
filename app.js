@@ -2,6 +2,7 @@
 /**
  * Module dependencies.
  */
+colors = require('colors');
 
 var express = require('express'),
 	app = express(),

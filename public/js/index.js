@@ -30,7 +30,7 @@ $(document).ready(function(){
 					alert("error: " + error);
 					return;
 				}
-				
+
 				$.ajax({
 					method: 'POST',
 					url: '/',
@@ -56,6 +56,41 @@ $(document).ready(function(){
 		}
 	});
 
+	// $('.next-sign-up').click(function(e){
+	// 	e.preventDefault();
+	// 	var password = $('.password').val();
+	// 	var username = $('.username').val();
+	// 	//This is where we need to do some crypto stuff
+	// 	$('#sign-up-collection-modal').foundation('reveal', 'open');
+
+	// 	$('.submit-sign-up').click(function(e){
+	// 		var apiKeys = [];
+	// 		$("input:checkbox[name=api-checkbox]:checked").each(function()
+	// 		{
+	// 			apiKeys.push(this.value);
+	// 		});
+	// 		console.log(apiKeys);
+	// 		$.ajax({
+	// 			method: 'POST',
+	// 			url: '/sign-up',
+	// 			data: {
+	// 				username: username,
+	// 				password: password,
+	// 				apiKeys: apiKeys
+	// 			},
+	// 			success: function(data){
+	// 				console.log(data);
+	// 				// FIXME: log in a real user from the database
+	// 				// and change client-side state to reflect that.
+	// 				// Additionally, cache the current user state
+	// 				// so that it can be read later if site closed
+	// 				// and state needs to be restored.
+	// 				// user = 'default';
+	// 				// clear_and_render(data.theBody);
+	// 			}
+	// 		});
+	// 	});
+	// });
 
 });
 
@@ -80,4 +115,18 @@ function clear_and_render(posts) {
 		$postDisplay.append(structuredPost);
 		structuredPost = "";
 	}
+}
+
+function getCheckedBoxes(chkboxName) {
+	var checkboxes = document.getElementsByName(chkboxName);
+	var checkboxesChecked = [];
+	// loop over them all
+	for (var i=0; i<checkboxes.length; i++) {
+	// And stick the checked ones onto an array...
+		if (checkboxes[i].checked) {
+			checkboxesChecked.push(checkboxes[i]);
+		}
+	}
+	// Return the array if it is non-empty, or null
+	return checkboxesChecked.length > 0 ? checkboxesChecked : null;
 }
