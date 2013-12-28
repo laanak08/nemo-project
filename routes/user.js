@@ -30,7 +30,7 @@ module.exports = function(db){
 				access_token: access_token
 			}, function(err, user){
 				console.log("saved to user: " + user);
-				res.redirect("/");
+				res.send("/");
 			});
 		}
 
