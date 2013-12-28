@@ -46,7 +46,7 @@ $(document).ready(function(){
 						// and state needs to be restored.
 						user = 'default';
 						console.log(data.theBody);
-						clear_and_render(data.theBody);
+						// clear_and_render(data.theBody);
 					}
 				});
 			});
@@ -59,25 +59,25 @@ $(document).ready(function(){
 
 });
 
-function clear_and_render(posts) {
-	var $postDisplay = $("#allPosts");
-	$postDisplay.empty();
+// function clear_and_render(posts) {
+// 	var $postDisplay = $("#allPosts");
+// 	$postDisplay.empty();
 
-	var structuredPost = "";
-	for(var i in posts) {
-		structuredPost = "<div class='row post'>";
+// 	var structuredPost = "";
+// 	for(var i in posts) {
+// 		structuredPost = "<div class='row post'>";
 
-		structuredPost += "<div class='large-3 large-offset-2 small-6 columns'>";
-		var postImg = "<img src='" + posts[i].url + "b.jpg' class='left'>";
-		structuredPost += postImg + "</div>";
+// 		structuredPost += "<div class='large-3 large-offset-2 small-6 columns'>";
+// 		var postImg = "<img src='" + posts[i].url + "b.jpg' class='left'>";
+// 		structuredPost += postImg + "</div>";
 
-		structuredPost += "<div class='large-4 small-6 columns left'>";
-		var postTitle = "<span class='caption'>" + posts[i].title + "</span>";
-		structuredPost += postTitle + "</div>";
+// 		structuredPost += "<div class='large-4 small-6 columns left'>";
+// 		var postTitle = "<span class='caption'>" + posts[i].title + "</span>";
+// 		structuredPost += postTitle + "</div>";
 
-		structuredPost += "</div>";
+// 		structuredPost += "</div>";
 
-		$postDisplay.append(structuredPost);
-		structuredPost = "";
-	}
-}
+// 		$postDisplay.append(structuredPost);
+// 		structuredPost = "";
+// 	}
+// }
