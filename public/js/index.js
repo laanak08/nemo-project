@@ -100,6 +100,7 @@ $(document).ready(function(){
 // 	}
 // }
 
+//var apiList = [];
 // $(".apiList").click(function(){
 // 	var api = $(this).attr("id");
 // 	apiList.push(api);
