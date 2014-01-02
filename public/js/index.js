@@ -6,54 +6,37 @@ $(document).ready(function(){
 		$(".close-reveal-modal").click();
 		var apiProvider = $(this).find("a").attr('id').replace('auth','');
 
-		// onload, default user assumed to be guest
-		// FIXME: store current user in cache. check there first to decide
-		// what to set user var to.
-		var user = 'guest';
 		var csrf_token = '';
-		if( 'guest' === user ) {
+		// get csrf_token
+		$.ajax({
+			method: 'GET',
+			url: '/csrf_token',
+			success: function(data){
+				csrf_token = data.csrf_token;
+			}
+		});
 
-			// get csrf_token
+		// begin access_token requst process from api using oAuth.io module
+		OAuth.initialize('XjlzBRnDXCXYM9pRjBIisrXK8Kc');
+
+		OAuth.popup(apiProvider, { 'state' : csrf_token }, function(err, result) {
+			if(err) {
+				alert("error: " + error);
+				return;
+			}
+
 			$.ajax({
-				method: 'GET',
-				url: '/csrf_token',
+				method: 'POST',
+				url: '/',
+				data: {
+					token: result.access_token,
+					provider: apiProvider
+				},
 				success: function(data){
-					csrf_token = data.csrf_token;
+					location.href = data;
 				}
 			});
-
-			// begin access_token requst process from api using oAuth.io module
-			OAuth.initialize('XjlzBRnDXCXYM9pRjBIisrXK8Kc');
-
-			OAuth.popup(apiProvider, { 'state' : csrf_token }, function(err, result) {
-				if(err) {
-					alert("error: " + error);
-					return;
-				}
-
-				$.ajax({
-					method: 'POST',
-					url: '/',
-					data: {
-						token: result.access_token,
-						provider: apiProvider
-					},
-					success: function(data){
-						// FIXME: log in a real user from the database
-						// and change client-side state to reflect that.
-						// Additionally, cache the current user state
-						// so that it can be read later if site closed
-						// and state needs to be restored.
-						user = 'default';
-						console.log(data.theBody);
-						// clear_and_render(data.theBody);
-					}
-				});
-			});
-		} else {
-			// FIXME: read user state from cache
-			// restore session
-		}
+		});
 	});
 
 	// $('.next-sign-up').click(function(e){
@@ -65,10 +48,10 @@ $(document).ready(function(){
 
 	// 	$('.submit-sign-up').click(function(e){
 	// 		var apiKeys = [];
-	// 		$("input:checkbox[name=api-checkbox]:checked").each(function()
-	// 		{
-	// 			apiKeys.push(this.value);
-	// 		});
+			// $("input:checkbox[name=api-checkbox]:checked").each(function()
+			// {
+			// 	apiKeys.push(this.value);
+			// });
 	// 		console.log(apiKeys);
 	// 		$.ajax({
 	// 			method: 'POST',
@@ -117,16 +100,7 @@ $(document).ready(function(){
 // 	}
 // }
 
-function getCheckedBoxes(chkboxName) {
-	var checkboxes = document.getElementsByName(chkboxName);
-	var checkboxesChecked = [];
-	// loop over them all
-	for (var i=0; i<checkboxes.length; i++) {
-	// And stick the checked ones onto an array...
-		if (checkboxes[i].checked) {
-			checkboxesChecked.push(checkboxes[i]);
-		}
-	}
-	// Return the array if it is non-empty, or null
-	return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-}
+// $(".apiList").click(function(){
+// 	var api = $(this).attr("id");
+// 	apiList.push(api);
+// });
