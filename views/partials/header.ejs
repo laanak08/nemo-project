@@ -17,15 +17,16 @@
 
 		<section class="top-bar-section">
 			<ul class="right">
-				<li class="active"><a href="#" class="success radius button">Tailored</a></li>
+				<li class="active"><a href="#" class="success radius button">The Buzz</a></li>
 				<li><a href="#">New</a></li>
 				<li><a href="#">Favorites</a></li>
+				<li><a href="#">Blog</a></li>
 			<% if(user === undefined){ %>
 				<li><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
 				<%- include sign-in-modal.ejs %>
 			<% } else { %>
 				<li class="has-dropdown">
-					<a href="#" class="secondary button">Welcome <%= user.username %></a>
+					<a href="#" class="secondary button"><%= user.username %></a>
 					<ul class="dropdown">
 						<li><a href="/logout" class="secondary button" data-reveal-id="collection-modal">Manage Collections</a></li>
 						<li><a href="/logout" class="alert button">Logout</a></li>

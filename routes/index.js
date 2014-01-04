@@ -33,10 +33,12 @@ module.exports = function(db){
 						var options = ApiHandler.retrieveUser(access_token, apiProvider);
 						request(options, function(e, r, body) {
 							if(e) return callback(e);
-							callback(false, body);
+							var html = Apis[apiProvider].toHTML(body);
+							callback(false, html);
 						});
 					});
 				}
+
 				if(req.user.apis.length === 0){
 					request( guestOptions, function callback(error, response, body) {
 						var images = ( Apis['imgur'].toHTML(body) );
@@ -46,7 +48,11 @@ module.exports = function(db){
 					async.parallel(funcs, function(err, results) {
 						if(err) { console.log(err); res.send(500,"Server Error"); return; }
 						console.log(results);
-						res.render('posts', { theBody: Apis['imgur'].toHTML(results[0]), user: req.user });
+						// call error checking function to determine whether or not access token has expired
+						// if expired, request new token
+						// 		update user account with new token
+						// 		POST request to '/'
+						res.render('posts', { theBody: results[0], user: req.user });
 						// res.send({api1:results[0], api2:results[1]});
 					});
 				}

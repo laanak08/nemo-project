@@ -30,11 +30,13 @@ module.exports = function(){
 	var userApiSchema = mongoose.Schema({
 		name: {type: String},
 		access_token: {type: String},
+		// refresh_token: {type: String}
 	});
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
+		apiNames: [],
 		apis: [userApiSchema]
 	});
 
@@ -82,10 +84,20 @@ module.exports = function(){
 		saveApi: function(userData, apiData, callback){
 			User.findOne({username: userData.username}, function(err, user) {
 				if(err) return callback(err);
-				user.apis.push({
-					name: apiData.name,
-					access_token: apiData.access_token
-				});
+
+				// only push api schema if new api schema
+				// ie. prevent repeats and inconsistencies
+				if(user.apiNames.indexOf(apiData.name) === -1 ) {
+					user.apiNames.push(apiData.name);
+					user.apis.push({
+						name: apiData.name,
+						access_token: apiData.access_token
+						// refresh_token: apiData.refresh_token
+					});
+				}else { // old token needs updating
+					//FIXME: need way to find and update apis tokens
+				}
+
 				user.save(function(err){
 					if(err) return callback(err);
 					console.log("User Succeeded in adding API " + apiData.name);

@@ -22,12 +22,15 @@ module.exports = function(db){
 		},
 
 		update: function(req, res){
+			console.log(req.body);
 			var access_token = req.body.token;
 			var apiProvider = req.body.provider;
+			// var refresh_token = req.body.refresh_token;
 
 			db.saveApi(req.user, {
 				name: apiProvider,
-				access_token: access_token
+				access_token: access_token,
+				// refresh_token: refresh_token
 			}, function(err, user){
 				console.log("saved to user: " + user);
 				res.send("/");
