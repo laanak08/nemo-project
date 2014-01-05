@@ -21,6 +21,7 @@ module.exports = function(db){
 						// FIXME: ensure each user has at least one acces_token and apiProvider
 						var access_token = req.user.apis[i].access_token;
 						var apiProvider = req.user.apis[i].name;
+
 						var genFunc = function(access_token, apiProvider){
 							var options = ApiHandler.retrieveUser(access_token, apiProvider);
 							return function(callback){
@@ -31,17 +32,17 @@ module.exports = function(db){
 								});
 							};
 						};
+						
+						// call error checking function to determine whether or not access token has expired
+						// if expired, request new token
+						// 		update user account with new token
+						// 		POST request to '/'
 
 						funcs.push( genFunc(access_token,apiProvider) );
 					}
 
 					async.parallel(funcs, function(err, results) {
 						if(err) { console.log(err); res.send(500,"Server Error"); return; }
-						console.log(results);
-						// call error checking function to determine whether or not access token has expired
-						// if expired, request new token
-						// 		update user account with new token
-						// 		POST request to '/'
 						res.render('posts', { theBody: results, user: req.user });
 						// res.send({api1:results[0], api2:results[1]});
 					});
@@ -59,6 +60,7 @@ var guestOptions = {
 	}
 };
 
+//TODO: come up with default api mixture for page
 function default_page(res, usr){
 	request( guestOptions, function callback(error, response, body) {
 		var images = ( Apis['imgur'].toHTML(body) );
