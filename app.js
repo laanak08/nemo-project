@@ -15,7 +15,6 @@ var express = require('express'),
 	SALT_WORK_FACTOR = 10,
 	mongoose = require('mongoose'),
 	redis = require('redis'),
-	redisClient = redis.createClient(),
 	RedisStore = require('connect-redis')(express),
 
 	db = require('./model/db'),
@@ -23,15 +22,18 @@ var express = require('express'),
 	userRoute = require('./routes/user')(db),
 	indexRoute = require('./routes/index')(db);
 
+if (process.env.REDISTOGO_URL) {
+	var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+	var redis = require("redis").createClient(rtg.port, rtg.hostname);
+	redis.auth(rtg.auth.split(":")[1]);
+} else {
+	var redis = require("redis").createClient();
+}
+
 var cookieMaxAge = 90000000;
 var sessionStore = new RedisStore({
 	client: redisClient,
 });
-
-var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-var redis = require("redis").createClient(rtg.port, rtg.hostname);
-
-redis.auth(rtg.auth.split(":")[1]);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -56,11 +58,7 @@ app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (process.env.REDISTOGO_URL) {
-	// TODO: redistogo connection
-} else {
-	var redis = require("redis").createClient();
-}
+
 
 // development only
 if ('development' == app.get('env')) {
