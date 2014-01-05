@@ -30,13 +30,12 @@ module.exports = function(){
 	var userApiSchema = mongoose.Schema({
 		name: {type: String},
 		access_token: {type: String},
-		// refresh_token: {type: String}
+		refresh_token: {type: String}
 	});
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		apiNames: [],
 		apis: [userApiSchema]
 	});
 
@@ -85,18 +84,25 @@ module.exports = function(){
 			User.findOne({username: userData.username}, function(err, user) {
 				if(err) return callback(err);
 
-				// only push api schema if new api schema
-				// ie. prevent repeats and inconsistencies
-				if(user.apiNames.indexOf(apiData.name) === -1 ) {
-					user.apiNames.push(apiData.name);
+				var access_token_changed = false;
+
+				for (var i = user.apis.length - 1; i >= 0; i--) {
+					if(user.apis[i].name === apiData.name) {
+						user.apis[i].access_token = apiData.access_token;
+						access_token_changed = true;
+						break;
+					}
+				}
+
+				if(!access_token_changed){
 					user.apis.push({
 						name: apiData.name,
 						access_token: apiData.access_token
-						// refresh_token: apiData.refresh_token
+						//refresh_token: apiData.refresh_token
 					});
-				}else { // old token needs updating
-					//FIXME: need way to find and update apis tokens
 				}
+
+				console.log(user);
 
 				user.save(function(err){
 					if(err) return callback(err);

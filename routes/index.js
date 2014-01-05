@@ -46,6 +46,7 @@ module.exports = function(db){
 					});
 				}else{
 					async.parallel(funcs, function(err, results) {
+
 						if(err) { console.log(err); res.send(500,"Server Error"); return; }
 						console.log(results);
 						// call error checking function to determine whether or not access token has expired
