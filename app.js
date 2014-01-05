@@ -15,8 +15,6 @@ var express = require('express'),
 	SALT_WORK_FACTOR = 10,
 	mongoose = require('mongoose'),
 	redis = require('redis'),
-	redisPub = redis.createClient(),
-	redisSub = redis.createClient(),
 	redisClient = redis.createClient(),
 	RedisStore = require('connect-redis')(express),
 
