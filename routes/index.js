@@ -23,30 +23,32 @@ module.exports = function(db){
 					res.render('posts', { theBody: images, user: undefined });
 				});
 			}else{
-				var funcs = [];
-				for( var i = 0; i < req.user.apis.length; i++ ) {
-					// FIXME: ensure each user has at least one acces_token and apiProvider
-					var access_token = req.user.apis[i].access_token;
-					var apiProvider = req.user.apis[i].name;
-
-					funcs.push( function(callback){
-						var options = ApiHandler.retrieveUser(access_token, apiProvider);
-						request(options, function(e, r, body) {
-							if(e) return callback(e);
-							var html = Apis[apiProvider].toHTML(body);
-							callback(false, html);
-						});
-					});
-				}
-
 				if(req.user.apis.length === 0){
 					request( guestOptions, function callback(error, response, body) {
 						var images = ( Apis['imgur'].toHTML(body) );
 						res.render('posts', { theBody: images, user: req.user });
 					});
 				}else{
-					async.parallel(funcs, function(err, results) {
+					var funcs = [];
+					for( var i = 0; i < req.user.apis.length; i++ ) {
+						// FIXME: ensure each user has at least one acces_token and apiProvider
+						var access_token = req.user.apis[i].access_token;
+						var apiProvider = req.user.apis[i].name;
+						var genFunc = function(access_token, apiProvider){
+							var options = ApiHandler.retrieveUser(access_token, apiProvider);
+							return function(callback){
+								request(options, function(e, r, body) {
+									if(e) return callback(e);
+									var html = Apis[apiProvider].toHTML(body);
+									callback(false, html);
+								});
+							};
+						};
+						
+						funcs.push( genFunc(access_token,apiProvider) );
+					}
 
+					async.parallel(funcs, function(err, results) {
 						if(err) { console.log(err); res.send(500,"Server Error"); return; }
 						console.log(results);
 						// call error checking function to determine whether or not access token has expired
@@ -87,3 +89,5 @@ module.exports = function(db){
 // 		console.log(data);
 // 	});
 // });
+
+
