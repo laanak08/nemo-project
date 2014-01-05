@@ -14,12 +14,20 @@ var express = require('express'),
 	bcrypt = require('bcrypt'),
 	SALT_WORK_FACTOR = 10,
 	mongoose = require('mongoose'),
+	redis = require('redis'),
+	redisClient = redis.createClient(),
+	RedisStore = require('connect-redis')(express),
 
 	db = require('./model/db'),
 	auth = require('./model/auth')(passport, LocalStrategy),
 
 	userRoute = require('./routes/user')(db),
 	indexRoute = require('./routes/index')(db);
+
+var cookieMaxAge = 90000000;
+var sessionStore = new RedisStore({
+	client: redisClient,
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -29,8 +37,13 @@ app.engine('ejs', engine);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({secret: "nemo"}));
+app.use(express.cookieParser('app cookie secret'));
+app.use(express.session({
+	key: 'cookieKey',
+	store: sessionStore,
+	secret: 'app cookie secret',
+	cookie: { maxAge: (cookieMaxAge !== 0) ? cookieMaxAge : null }
+}));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
