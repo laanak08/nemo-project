@@ -6,28 +6,15 @@ var Apis = require('../lib/apis');
 var async = require('async');
 var flatten = require('flat').flatten;
 
-var guestOptions = {
-	url: 'https://api.imgur.com/3/gallery/hot/0',
-	headers : {
-		'Authorization': 'Client-ID 248a22763e9b17e'
-	}
-};
-
 contentPerPageLimit = 3;
 module.exports = function(db){
 	return {
 		index: function( req, res){
 			if( !req.user ){
-				request( guestOptions, function callback(error, response, body) {
-					var images = ( Apis['imgur'].toHTML(body) );
-					res.render('posts', { theBody: images, user: undefined });
-				});
+				default_page(res, undefined);
 			}else{
 				if(req.user.apis.length === 0){
-					request( guestOptions, function callback(error, response, body) {
-						var images = ( Apis['imgur'].toHTML(body) );
-						res.render('posts', { theBody: images, user: req.user });
-					});
+					default_page(res, req.user);
 				}else{
 					var funcs = [];
 					for( var i = 0; i < req.user.apis.length; i++ ) {
@@ -55,7 +42,7 @@ module.exports = function(db){
 						// if expired, request new token
 						// 		update user account with new token
 						// 		POST request to '/'
-						res.render('posts', { theBody: results[0], user: req.user });
+						res.render('posts', { theBody: results, user: req.user });
 						// res.send({api1:results[0], api2:results[1]});
 					});
 				}
@@ -64,6 +51,23 @@ module.exports = function(db){
 	};
 };
 
+
+var guestOptions = {
+	url: 'https://api.imgur.com/3/gallery/hot/0',
+	headers : {
+		'Authorization': 'Client-ID 248a22763e9b17e'
+	}
+};
+
+function default_page(res, usr){
+	request( guestOptions, function callback(error, response, body) {
+		var images = ( Apis['imgur'].toHTML(body) );
+		var posts = [];
+		posts.push(images);
+		console.log(posts);
+		res.render('posts', { theBody: posts, user: usr });
+	});
+}
 // if ( ! access_token) {
 // 	access_token = {
 // 		oauth_token: req.body.oauth_token,
