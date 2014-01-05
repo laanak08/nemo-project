@@ -16,8 +16,12 @@ module.exports = function(db){
 					return res.send('problems');
 				}
 				var indexRoute = require('../routes/index')(db);
-				req.user = user;
-				indexRoute.index(req, res);
+				req.logIn(user, function(err) {
+					if (err) { return next(err); }
+
+					console.log(user.username + " login successful");
+					indexRoute.index(req, res);
+				});
 			});
 		},
 
