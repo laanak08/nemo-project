@@ -44,7 +44,7 @@ module.exports = function(db){
 								});
 							};
 						};
-						
+
 						funcs.push( genFunc(access_token,apiProvider) );
 					}
 

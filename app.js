@@ -20,7 +20,6 @@ var express = require('express'),
 
 	db = require('./model/db'),
 	auth = require('./model/auth')(passport, LocalStrategy),
-
 	userRoute = require('./routes/user')(db),
 	indexRoute = require('./routes/index')(db);
 
