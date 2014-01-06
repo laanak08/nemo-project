@@ -65,7 +65,12 @@ if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
 
-app.get('/', indexRoute.index);
+app.get('/', indexRoute.new_content);
+app.get('/buzz', indexRoute.friend_feed);
+app.get('/new', indexRoute.new_content);
+app.get('/favorites', indexRoute.favorites);
+app.get('/blog', indexRoute.blog);
+
 app.post('/', userRoute.update);
 
 var csrf_token = require('./routes/forge_token');
