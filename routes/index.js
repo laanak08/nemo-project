@@ -36,28 +36,32 @@ var genFunc = function (access_token, apiProvider, url){
 function get_user_content(req, res, render){
 	var user = req.user;
 	var funcs = [];
-	
-	var numApis = user.apis.length;
-	for(var i = 0; i < numApis; i++){
-	// var numApiGroups = user.apiGroups.length;
-	// for(var i = 0; i < numApiGroups; i++){
-		// var numApis = user.apiGroups[i].apis.length;
-		// for(var j = 0; j < numApis; j++){
+
+	// var numApis = user.apis.length;
+	// for(var i = 0; i < numApis; i++){
+	var numApiGroups = user.apiGroups.length;
+	for(var i = 0; i < numApiGroups; i++){
+
+		var numApis = user.apiGroups[i].apis.length;
+		for(var j = 0; j < numApis; j++){
 
 			// var endpoint = user.apiGroups[i].apis[j].endpoints[0]; //FIXME: loop through all endpoints
-			// var Api = user.apiGroups[i].apis[j];
+			var Api = user.apiGroups[i].apis[j];
 
-			var access_token = user.apis[i].access_token ;// Api.access_token;
-			var apiProvider = user.apis[i].name;// Api.name;
+			// var access_token = user.apis[i].access_token ;// Api.access_token;
+			var access_token = Api.access_token;
+			// var apiProvider = user.apis[i].name;// Api.name;
+			var apiProvider = Api.name;
 			var url = Apis[apiProvider].url ;//  Apis[apiProvider].endpoints[endpoint];
+			// var url = Apis[apiProvider].endpoints[endpoint];
 
-			// call error checking function to determine whether or not access token has expired
-			// if expired, request new token
-			// 		update user account with new token
-			// 		POST request to '/'
+			// check if access token has expired
+			// 		yes: request new token
+			// 			update user account with new token
+			// 			load '/'
 
 			funcs.push( genFunc(access_token, apiProvider, url) );
-		// }
+		}
 	}
 
 	async.parallel(funcs, function (err, results) {
@@ -67,7 +71,8 @@ function get_user_content(req, res, render){
 }
 
 function new_content( req, res, render){
-	if( (!req.user) || (req.user.apis.length === 0) ) {//(req.user.apiGroups.length === 0) ){
+	// if( (!req.user) || (req.user.apis.length === 0) ) {
+	if( (!req.user) || (req.user.apiGroups.length === 0) ){
 		default_page( render );
 	}else{
 		get_user_content(req, res, render);

@@ -23,20 +23,29 @@ module.exports = function(){
 		console.log("connected to db");
 	});
 
-	/* - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - *
-		Set up User Schema
-		- this should be taken out and put into a User class at some point
-	 * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - */
-	var userApiSchema = mongoose.Schema({
+	// FIXME: Set up User Schema this should be taken out and put into a User class at some point
+	var apiSchema = mongoose.Schema({
 		name: {type: String},
 		access_token: {type: String},
-		refresh_token: {type: String}
+		refresh_token: {type: String},
+		endpoints: []
 	});
+
+	var apiGroupSchema = mongoose.Schema({
+		name: { type: String },
+		apis: [ apiSchema ]
+	});
+	
+	// var apiGroupSchema = mongoose.Schema({
+	// 	name: { type: String },
+	// 	apis: [apiSchema],
+	//	favorites: [ postSchema ]
+	// });
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		apis: [userApiSchema]
+		apiGroups: [apiGroupSchema]
 	});
 
 	userSchema.pre('save', function(next) {
@@ -69,8 +78,28 @@ module.exports = function(){
 		saveUser: function(body, callback){
 			var newUser = new User({
 				username: body.username,
-				password: body.password
+				password: body.password,
+				apiGroups: [
+					{
+						name: 'StarterKit',					
+						apis: [
+							{
+								name: 'github',
+								access_token: 'no access_token',
+								refresh_token: 'no refresh_token',
+								endpoints: ['account']
+							},
+							{
+								name: 'imgur',
+								access_token: 'no access_token',
+								refresh_token: 'no refresh_token',
+								endpoints: ['gallery']
+							}
+						]
+					}
+				]
 			});
+
 			newUser.save(function(err, newUser){
 				if(err) {
 					console.log(err);
@@ -86,19 +115,26 @@ module.exports = function(){
 
 				var access_token_changed = false;
 
-				for (var i = user.apis.length - 1; i >= 0; i--) {
-					if(user.apis[i].name === apiData.name) {
-						user.apis[i].access_token = apiData.access_token;
-						access_token_changed = true;
-						break;
+				var numApiGroups = user.apiGroups.length;
+				for(var i = 0; i < numApiGroups; i++){
+
+					var numApis = user.apiGroups[i].apis.length;
+					for(var j = 0; j < numApis; j++){
+
+						var Api = user.apiGroups[i].apis[j];
+						if(Api.name === apiData.name) {
+							Api.access_token = apiData.access_token;
+							access_token_changed = true;
+							break;
+						}
 					}
 				}
 
+				// FIXME: add endpoints key and refresh_token key
 				if(!access_token_changed){
-					user.apis.push({
+					user.apiGroups.apis.push({
 						name: apiData.name,
 						access_token: apiData.access_token
-						//refresh_token: apiData.refresh_token
 					});
 				}
 
