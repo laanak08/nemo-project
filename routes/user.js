@@ -18,10 +18,13 @@ module.exports = function(db){
 				var indexRoute = require('../routes/index')(db);
 
 				req.logIn(user, function(err) {
-					if (err) { return next(err); }
+					if (err) { 
+						console.log(err);
+						return next(err); 
+					}
 
 					console.log(user.username + " login successful");
-					indexRoute.index(req, res);
+					indexRoute.new_content(req, res);
 				});
 			});
 		},

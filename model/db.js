@@ -74,7 +74,6 @@ module.exports = function(){
 	User = mongoose.model('User', userSchema);
 
 	return {
-		// PUBLIC FUNCTIONS
 		saveUser: function(body, callback){
 			var newUser = new User({
 				username: body.username,
@@ -105,7 +104,7 @@ module.exports = function(){
 					console.log(err);
 					return callback(err);
 				}
-				console.log("new user: " + newUser.username);
+				console.log("new user: " + newUser);
 				callback(null, newUser);
 			});
 		},

@@ -48,9 +48,9 @@ function get_user_content(req, res, render){
 			// var endpoint = user.apiGroups[i].apis[j].endpoints[0]; //FIXME: loop through all endpoints
 			var Api = user.apiGroups[i].apis[j];
 
-			// var access_token = user.apis[i].access_token ;// Api.access_token;
+			// var access_token = user.apis[i].access_token ;
 			var access_token = Api.access_token;
-			// var apiProvider = user.apis[i].name;// Api.name;
+			// var apiProvider = user.apis[i].name;
 			var apiProvider = Api.name;
 			var url = Apis[apiProvider].url ;
 			// var url = Apis[apiProvider].endpoints[endpoint];
