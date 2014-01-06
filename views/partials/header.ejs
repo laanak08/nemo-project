@@ -2,7 +2,7 @@
 	<nav class="tab-bar top-bar" data-topbar>
 
 		<section class="left-small">
-			<h1 style="margin-left:55px;"><a href="/" >Nemo</a></h1>
+			<h1 style="margin-left:55px;"><a href="/">Nemo</a></h1>
 		</section>
 
 		<section class="left-small left-shadow-boarder">
@@ -17,12 +17,12 @@
 
 		<section class="top-bar-section">
 			<ul class="right">
-				<li ><a href="/buzz" >The Buzz</a></li>
-				<li class="active"><a href="/new" class="success radius button">New</a></li>
-				<li ><a href="/favorites" >Favorites</a></li>
-				<li ><a href="/blog" >Blog</a></li>
+				<li id="buzzfeed" ><a href="/buzz">The Buzz</a></li>
+				<li id="newfeed" ><a href="/new">New Stuff</a></li>
+				<li id="favorites" ><a href="/favorites">Favorites</a></li>
+				<li id="blogfeed" ><a href="/blog">My Blog</a></li>
 			<% if(user === undefined){ %>
-				<li><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
+				<li id="signinbutton" style="margin-left: 3px; margin-right: 3px;"><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
 				<%- include sign-in-modal.ejs %>
 			<% } else { %>
 				<li class="has-dropdown">
@@ -46,6 +46,13 @@
 	<ul class="off-canvas-list">
 		<li><label>Collections</label></li>
 		<li><a href="#">Imgur</a></li>
+		<%/*%>	
+		<% if(typeof user.apiGroups !== 'undefined'){ %>
+			<% for(var i = 0, numApiGroups = user.apiGroups.length; i < numApiGroups; i++) { %>
+				<li><a href="#"><%= user.apiGroups[i].name %></a></li>
+			<% } %>
+		<% } %>
+		<%*/%>
 	</ul>
 </aside>
 

@@ -28,7 +28,7 @@ module.exports = function(){
 		name: {type: String},
 		access_token: {type: String},
 		refresh_token: {type: String},
-		endpoints: []
+		endpoints: [String]
 	});
 
 	var apiGroupSchema = mongoose.Schema({
@@ -45,7 +45,7 @@ module.exports = function(){
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		apiGroups: [apiGroupSchema]
+		apiGroups: [ apiGroupSchema ]
 	});
 
 	userSchema.pre('save', function(next) {

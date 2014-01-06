@@ -52,7 +52,7 @@ function get_user_content(req, res, render){
 			var access_token = Api.access_token;
 			// var apiProvider = user.apis[i].name;// Api.name;
 			var apiProvider = Api.name;
-			var url = Apis[apiProvider].url ;//  Apis[apiProvider].endpoints[endpoint];
+			var url = Apis[apiProvider].url ;
 			// var url = Apis[apiProvider].endpoints[endpoint];
 
 			// check if access token has expired
@@ -82,18 +82,24 @@ function new_content( req, res, render){
 module.exports = function (db){
 	return {
 		friend_feed: function (req, res){
-
+			new_content( req, res, function (data){
+				res.render('posts', { theBody: data, user: req.user, activePage: 'buzzfeed' });
+			});
 		},
 		new_content: function (req, res){
 			new_content( req, res, function (data){
-				res.render('posts', { theBody: data, user: req.user });
+				res.render('posts', { theBody: data, user: req.user, activePage: 'newfeed' });
 			});
 		},
 		favorites: function (req, res){
-
+			new_content( req, res, function (data){
+				res.render('posts', { theBody: data, user: req.user, activePage: 'favorites' });
+			});
 		},
 		blog: function (req, res){
-
+			new_content( req, res, function (data){
+				res.render('posts', { theBody: data, user: req.user, activePage: 'blogfeed' });
+			});
 		}
 	};
 };
