@@ -25,23 +25,46 @@ module.exports = function(){
 
 	// FIXME: Set up User Schema this should be taken out and put into a User class at some point
 	var apiSchema = mongoose.Schema({
-		name: {type: String},
+		name: {type: String}, //unique true
 		access_token: {type: String},
 		refresh_token: {type: String},
 		endpoints: [String]
 	});
 
 	var apiGroupSchema = mongoose.Schema({
-		name: { type: String },
-		apiID: [{type: String}]
+		name: { type: String, required: true },
+		apiIDs: [{ type: String }]
 	});
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
-		password: { type: String, required: true},
+		password: { type: String, required: true },
 		apis: [apiSchema],
 		collections: [apiGroupSchema]
 	});
+
+	userSchema.methods.getCollectionIDs = function(name){
+		//return array of _id's
+		var user = this;
+
+		for( var i = 0; i < user.collections.length; i++ ){
+			if(user.collections[i].name === name){
+				return user.collections[i].apiIDs;
+			}
+		}
+		return -1;
+	};
+
+	userSchema.methods.getApiById = function(id){
+		//return api objects
+		var user = this;
+		for( var i = 0; i < user.apis.length; i++ ){
+			if(user.apis[i]._id == id){
+				return user.apis[i];
+			}
+		}
+		return -1;
+	};
 
 	userSchema.pre('save', function(next) {
 		var user = this;
@@ -72,20 +95,7 @@ module.exports = function(){
 		saveUser: function(body, callback){
 			var newUser = new User({
 				username: body.username,
-				password: body.password,
-				apiGroups: [
-					{
-						name: 'Starter Kit',
-						apis: [
-							{
-								name: 'imgur',
-								access_token: 'no access_token',
-								refresh_token: 'no refresh_token',
-								endpoints: ['gallery', 'favorites']
-							}
-						]
-					}
-				]
+				password: body.password
 			});
 
 			newUser.save(function(err, newUser){
@@ -101,13 +111,19 @@ module.exports = function(){
 			User.findOne({username: userData.username}, function(err, user) {
 				if(structure === 'api'){
 					crud_api(operation, user, apiData, callback);
+				} else if(structure === 'collection') {
+					crud_api_collection(operation, user, apiData, callback);
 				} else {
-					crud_api_group(operation, user, apiData, callback);
+					console.log('Not a crud operation');
+					// crud_api_group(operation, user, apiData, callback);
 				}
 
 				user.save(function(err){
-					if(err) return callback(err);
-					console.log("User Succeeded in adding API " + apiData.name);
+					if(err){
+						console.log(err);
+						return callback(err);
+					}
+					console.log("User Succeeded in adding " + apiData.name);
 					callback(null, user);
 				});
 			});
@@ -116,45 +132,11 @@ module.exports = function(){
 }();
 
 function crud_api(operation, user, apiData, callback){
-	var apiIndex = -1,
-		groupIndex = find_group(user, apiData.groupName);
-	if(groupIndex !== -1)
-		apiIndex = find_api(user, apiData.name, groupIndex);
-
 	switch(operation) {
 		case 'add':
-			if(groupIndex !== -1){
-				if(apiIndex !== -1){
-					var Api = user.apiGroups[groupIndex].apis[apiIndex];
-					Api.access_token = apiData.access_token;
-					// Api.refresh_token = apiData.refresh_token;
-					// Api.endpoints = apiData.endpoints;
-				} else {
-					user.apiGroups[groupIndex].apis.push({
-						name: apiData.name,
-						access_token: apiData.access_token//,
-						// refresh_token: 'no refresh_token',
-						// endpoints: apiData.endpoints
-					});
-				}
-			} else {
-				// rovision for if trying to add api to non-existent group
-				user.apiGroups.push({
-					name: apiData.groupName,
-					apis: [
-						{
-							name: apiData.name,
-							access_token: apiData.access_token//,
-							// refresh_token: 'no refresh_token',
-							// endpoints: apiData.endpoints
-						}
-					]
-				});
-			}
+			user.apis.push(apiData);
 			break;
 		case 'remove':
-			if(apiIndex !== -1)
-				user.apiGroups[groupIndex].apis[apiIndex].remove();
 			break;
 		default:
 			var errMsg = 'invalid api operation attempted';
@@ -162,23 +144,12 @@ function crud_api(operation, user, apiData, callback){
 	}
 }
 
-function crud_api_group(operation, user, apiData, callback){
-	var groupIndex = find_group(user, apiData.groupName);
+function crud_api_collection(operation, user, collectionData, callback){
 	switch(operation) {
 		case 'add':
-			if( groupIndex === -1){
-				user.apiGroups.push({
-					name: apiData.groupName,
-					apis: apis
-				});
-			} else {
-				user.apiGroups[groupIndex].name = apiData.groupName;
-				// FIXME: update apis after updating groupname
-			}
+			user.collections.push(collectionData);
 			break;
 		case 'remove':
-			if( groupIndex !== -1)
-				user.apiGroups[groupIndex].remove();
 			break;
 		default:
 			var errMsg = 'invalid group operation attempted';
@@ -186,24 +157,48 @@ function crud_api_group(operation, user, apiData, callback){
 	}
 }
 
-function find_group(user, groupName){
-	var numApiGroups = user.apiGroups.length;
-	for(var i = 0; i < numApiGroups; i++){
-		if( user.apiGroups[i].name === groupName ){
-			return i;
-		}
-	}
-	return -1;
-}
+// function crud_api_group(operation, user, apiData, callback){
+// 	var groupIndex = find_group(user, apiData.groupName);
+// 	switch(operation) {
+// 		case 'add':
+// 			if( groupIndex === -1){
+// 				user.apiGroups.push({
+// 					name: apiData.groupName,
+// 					apis: apis
+// 				});
+// 			} else {
+// 				user.apiGroups[groupIndex].name = apiData.groupName;
+// 				// FIXME: update apis after updating groupname
+// 			}
+// 			break;
+// 		case 'remove':
+// 			if( groupIndex !== -1)
+// 				user.apiGroups[groupIndex].remove();
+// 			break;
+// 		default:
+// 			var errMsg = 'invalid group operation attempted';
+// 			return callback(errMsg);
+// 	}
+// }
 
-function find_api(user, apiName, groupIndex){
-	console.log("groupIndex: "+groupIndex);
-	var numApis = user.apiGroups[groupIndex].apis.length;
-	for(var i = 0; i < numApis; i++){
-		var Api = user.apiGroups[groupIndex].apis[i];
-		if(Api.name === apiName) {
-			return i;
-		}
-	}
-	return -1;
-}
+// function find_group(user, groupName){
+// 	var numApis = user.apis.length;
+// 	for(var i = 0; i < numApis; i++){
+// 		if( user.apis[i].name === groupName ){
+// 			return i;
+// 		}
+// 	}
+// 	return -1;
+// }
+
+// function find_api(user, apiName, groupIndex){
+// 	console.log("groupIndex: "+groupIndex);
+// 	var numApis = user.apiGroups[groupIndex].apis.length;
+// 	for(var i = 0; i < numApis; i++){
+// 		var Api = user.apiGroups[groupIndex].apis[i];
+// 		if(Api.name === apiName) {
+// 			return i;
+// 		}
+// 	}
+// 	return -1;
+// }

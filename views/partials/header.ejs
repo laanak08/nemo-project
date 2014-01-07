@@ -42,15 +42,14 @@
 
 <aside class="left-off-canvas-menu">
 	<ul class="off-canvas-list">
-		<li><label>Collections</label></li>
 		<% if(user){ %>
-			<% for(var i = 0, numApiGroups = user.apiGroups.length; i < numApiGroups; i++) { %>
-				<li id="<%= user.apiGroups[i].name %>" class="collections">
-					<a href="#"><%= user.apiGroups[i].name %></a>
+			<% for(var i = 0, numApiGroups = user.collections.length; i < numApiGroups; i++) { %>
+				<li id="<%= user.collections[i].name %>" class="collections">
+					<label><%= user.collections[i].name %></label>
 				</li>
 			<% } %>
 		<% } %>
 	</ul>
-	<button class="alert expand">New Collection</button>
+	<button id="new-collection-btn" class="alert expand">New Collection</button>
 </aside>
 

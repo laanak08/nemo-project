@@ -71,6 +71,11 @@ app.get('/new', indexRoute.new_content);
 app.get('/favorites', indexRoute.favorites);
 app.get('/blog', indexRoute.blog);
 
+// app.get('/collection:' userRoute.showCollections);
+
+app.post('/collection', userRoute.addCollection);
+app.get('/collection', userRoute.getCollection);
+
 app.post('/', userRoute.update);
 
 var csrf_token = require('./routes/forge_token');

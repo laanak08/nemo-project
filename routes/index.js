@@ -19,6 +19,7 @@ var genFunc = function (access_token, apiProvider, url){
 	var options = ApiHandler.retrieveUser(access_token, apiProvider, url);
 	return function (callback){
 		request(options, function (e, r, body) {
+			console.log(apiProvider);
 			if(e) return callback(e);
 			var html = Apis[apiProvider].toHTML(body);
 			callback(false, html);
@@ -29,30 +30,26 @@ var genFunc = function (access_token, apiProvider, url){
 function get_user_content(req, res, render){
 	var user = req.user;
 	var funcs = [];
+	var numApis = user.apis.length;
 
-	var numApiGroups = user.apiGroups.length;
-	for(var i = 0; i < numApiGroups; i++){
+	for(var i = 0; i < numApis; i++){
 
-		var numApis = user.apiGroups[i].apis.length;
-		for(var j = 0; j < numApis; j++){
+		var Api = user.apis[i];
+		var access_token = Api.access_token;
+		var apiProvider = Api.name;
 
-			var Api = user.apiGroups[i].apis[j];
-			var access_token = Api.access_token;
-			var apiProvider = Api.name;
+		var numEndpoints = Api.endpoints.length;
+		for(var k = 0; k < numEndpoints; k++) {
 
-			var numEndpoints = Api.endpoints.length;
-			for(var k = 0; k < numEndpoints; k++) {
-				
-				var endpoint = Api.endpoints[k];
-				var url = Apis[apiProvider].endpoints[endpoint];
+			var endpoint = Api.endpoints[k];
+			var url = Apis[apiProvider].endpoints[endpoint];
 
-				// check if access token has expired
-				// 		yes: request new token
-				// 			update user account with new token
-				// 			load '/'
+			// check if access token has expired
+			// 		yes: request new token
+			// 			update user account with new token
+			// 			load '/'
 
-				funcs.push( genFunc(access_token, apiProvider, url) );
-			}
+			funcs.push( genFunc(access_token, apiProvider, url) );
 		}
 	}
 
@@ -63,7 +60,7 @@ function get_user_content(req, res, render){
 }
 
 function new_content( req, res, render){
-	if( (!req.user) || (req.user.apiGroups.length === 0) ){
+	if( (!req.user) || (req.user.apis.length === 0) ){
 		default_page( render );
 	}else{
 		get_user_content(req, res, render);
