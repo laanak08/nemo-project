@@ -40,19 +40,16 @@
 	</nav>
 </div>
 
-
-
 <aside class="left-off-canvas-menu">
 	<ul class="off-canvas-list">
 		<li><label>Collections</label></li>
-		<li><a href="#">Imgur</a></li>
-		<%/*%>	
-		<% if(typeof user.apiGroups !== 'undefined'){ %>
+		<% if(user){ %>
 			<% for(var i = 0, numApiGroups = user.apiGroups.length; i < numApiGroups; i++) { %>
-				<li><a href="#"><%= user.apiGroups[i].name %></a></li>
+				<li id="<%= user.apiGroups[i].name %>" class="collections">
+					<a href="#"><%= user.apiGroups[i].name %></a>
+				</li>
 			<% } %>
 		<% } %>
-		<%*/%>
 	</ul>
 </aside>
 

@@ -31,15 +31,16 @@ module.exports = function(db){
 
 		update: function(req, res){
 			console.log(req.body);
-			var access_token = req.body.token;
-			var apiProvider = req.body.provider;
-			// var refresh_token = req.body.refresh_token;
 
-			db.saveApi(req.user, {
-				name: apiProvider,
-				access_token: access_token,
-				// refresh_token: refresh_token
-			}, function(err, user){
+			var apiData = {
+				name: req.body.provider,
+				access_token: req.body.token,
+				// refresh_token: req.body.refresh_token,
+				// endpoint: req.body.endpoints,
+				groupName: req.body.groupName
+			};
+
+			db.userCrud('add','api',req.user, apiData, function(err, user){
 				console.log("saved to user: " + user);
 				res.send("/");
 			});

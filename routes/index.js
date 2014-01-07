@@ -4,17 +4,10 @@ var request_module = require("request"),
 	Apis = require('../lib/apis'),
 	async = require('async');
 
-var guestOptions = {
-	url: 'https://api.imgur.com/3/gallery/hot/0',
-	headers : {
-		'Authorization': 'Client-ID 248a22763e9b17e'
-	}
-};
-
-//TODO: come up with default api mixture for page
 function default_page(render){
 	var images = [],
 		posts = [];
+	var guestOptions = ApiHandler.retrieveUser('no access_token', 'imgur', 'no url');
 	request( guestOptions, function (error, response, body) {
 		images = ( Apis['imgur'].toHTML(body) );
 		posts.push(images);
@@ -37,41 +30,39 @@ function get_user_content(req, res, render){
 	var user = req.user;
 	var funcs = [];
 
-	// var numApis = user.apis.length;
-	// for(var i = 0; i < numApis; i++){
 	var numApiGroups = user.apiGroups.length;
 	for(var i = 0; i < numApiGroups; i++){
 
 		var numApis = user.apiGroups[i].apis.length;
 		for(var j = 0; j < numApis; j++){
 
-			// var endpoint = user.apiGroups[i].apis[j].endpoints[0]; //FIXME: loop through all endpoints
 			var Api = user.apiGroups[i].apis[j];
-
-			// var access_token = user.apis[i].access_token ;
 			var access_token = Api.access_token;
-			// var apiProvider = user.apis[i].name;
 			var apiProvider = Api.name;
-			var url = Apis[apiProvider].url ;
-			// var url = Apis[apiProvider].endpoints[endpoint];
 
-			// check if access token has expired
-			// 		yes: request new token
-			// 			update user account with new token
-			// 			load '/'
+			var numEndpoints = Api.endpoints.length;
+			for(var k = 0; k < numEndpoints; k++) {
+				
+				var endpoint = Api.endpoints[k];
+				var url = Apis[apiProvider].endpoints[endpoint];
 
-			funcs.push( genFunc(access_token, apiProvider, url) );
+				// check if access token has expired
+				// 		yes: request new token
+				// 			update user account with new token
+				// 			load '/'
+
+				funcs.push( genFunc(access_token, apiProvider, url) );
+			}
 		}
 	}
 
 	async.parallel(funcs, function (err, results) {
-		if(err) { console.log(err); res.send(500,"Server Error"); return; }
+		if(err) { console.log("routes/index.js: "+err); res.send(500,"Server Error"); return; }
 		render(results);
 	});
 }
 
 function new_content( req, res, render){
-	// if( (!req.user) || (req.user.apis.length === 0) ) {
 	if( (!req.user) || (req.user.apiGroups.length === 0) ){
 		default_page( render );
 	}else{
