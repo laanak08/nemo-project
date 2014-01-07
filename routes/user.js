@@ -18,9 +18,9 @@ module.exports = function(db){
 				var indexRoute = require('../routes/index')(db);
 
 				req.logIn(user, function(err) {
-					if (err) { 
+					if (err) {
 						console.log(err);
-						return next(err); 
+						return next(err);
 					}
 
 					console.log(user.username + " login successful");
