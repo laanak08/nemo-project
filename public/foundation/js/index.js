@@ -26,7 +26,7 @@ function get_content(groupName){
 
 function select_page_tab(page){
 	$(page).addClass("active");
-	$(page).find("a").addClass("button radius");
+	$(page).find("a").addClass("radius button");
 }
 
 function add_api(apiProvider){

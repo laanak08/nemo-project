@@ -2,8 +2,12 @@
 <% for(var i = 0; i < theBody.length; i++) {%>
 	<% for(var j = 0; j < theBody[i].length; j++) {%>
 		<% var post = theBody[i][j]; %>
-		<div class="row post">
-			<%- post %>
+		<div class="post">
+			<div class="row">
+				<div class="large-12 columns">
+					<%- post %>
+				</div>
+			</div>
 		</div>
 	<% } %>
 <% } %>

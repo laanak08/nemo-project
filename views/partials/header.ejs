@@ -22,14 +22,14 @@
 				<li id="favorites" ><a href="/favorites">Favorites</a></li>
 				<li id="blogfeed" ><a href="/blog">My Blog</a></li>
 			<% if(user === undefined){ %>
-				<li id="signinbutton" style="margin-left: 3px; margin-right: 3px;"><a href="#" class="secondary button" data-reveal-id="signInModal">Sign In</a></li>
+				<li id="signinbutton"><a href="#"  class="alert button expand dropdown-button" data-reveal-id="signInModal">Sign In</a></li>
 				<%- include sign-in-modal.ejs %>
 			<% } else { %>
 				<li class="has-dropdown">
-					<a href="#" class="secondary button">Welcome <%= user.username %>!</a>
+					<a href="#" class="alert button">Welcome <%= user.username %>!</a>
 					<ul class="dropdown">
-						<li><a href="/logout" class="secondary button" data-reveal-id="collection-modal">Manage Collections</a></li>
-						<li><a href="/logout" class="alert button">Logout</a></li>
+						<li><a href="/logout" class="success button" data-reveal-id="collection-modal">Manage Collections</a></li>
+						<li><a href="/logout" class="secondary button">Logout</a></li>
 					</ul>
 				</li>
 				<%- include api-collections-modal.ejs %>
@@ -51,6 +51,6 @@
 			<% } %>
 		<% } %>
 	</ul>
-	<button class="expand">New Collection</button>
+	<button class="alert expand">New Collection</button>
 </aside>
 

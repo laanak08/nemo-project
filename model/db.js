@@ -35,7 +35,7 @@ module.exports = function(){
 		name: { type: String },
 		apis: [ apiSchema ]
 	});
-	
+
 	// var apiGroupSchema = mongoose.Schema({
 	// 	name: { type: String },
 	// 	apis: [apiSchema],
@@ -80,7 +80,7 @@ module.exports = function(){
 				password: body.password,
 				apiGroups: [
 					{
-						name: 'Starter Kit',					
+						name: 'Starter Kit',
 						apis: [
 							{
 								name: 'imgur',

@@ -17,7 +17,7 @@ html {
 }
 
 .green-bottom-boarder{
-	border-bottom: 5px solid #5da423;
+	border-bottom: 5px solid #2ba6cb;
 }
 
 .white{
@@ -26,7 +26,22 @@ html {
 
 .post{
 	background: white;
-	padding: 2em;
+	padding: 1em;
+	margin: .75em;
+	border-radius: 3px;
+	border: 1px solid #2ba6cb;
+}
+
+.side-panel-active{
+	background-color: black;
+}
+
+#signinbutton{
+	margin-left: 3px; margin-right: 3px;
+}
+
+.dropdown-button{
+	background: black;
 }
 
 div.overlay {
@@ -46,7 +61,7 @@ div.loginOverlay {
 	position: relative;
 	z-index: 3;
 	margin: 150px auto 0px auto;
-	width: 500px; 
+	width: 500px;
 	height: 300px;
 	background: #FFF;
 	color: #000;
