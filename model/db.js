@@ -143,7 +143,7 @@ function crud_api(operation, user, apiData, callback){
 					});
 				}
 			} else {
-				// rovision for if trying to add api to non-existent group
+				// provision for if trying to add api to non-existent group
 				user.apiGroups.push({
 					name: apiData.groupName,
 					apis: [
@@ -202,7 +202,6 @@ function find_group(user, groupName){
 }
 
 function find_api(user, apiName, groupIndex){
-	console.log("groupIndex: "+groupIndex);
 	var numApis = user.apiGroups[groupIndex].apis.length;
 	for(var i = 0; i < numApis; i++){
 		var Api = user.apiGroups[groupIndex].apis[i];
