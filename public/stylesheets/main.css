@@ -17,7 +17,7 @@ html {
 }
 
 .green-bottom-boarder{
-	border-bottom: 5px solid #2ba6cb;
+	border-bottom: 5px solid #d8be35;
 }
 
 .white{
@@ -29,7 +29,7 @@ html {
 	padding: 1em;
 	margin: .75em;
 	border-radius: 3px;
-	border: 1px solid #2ba6cb;
+	border: 1px solid #d86d35;
 }
 
 .side-panel-active{
@@ -39,7 +39,9 @@ html {
 #signinbutton{
 	margin-left: 3px; margin-right: 3px;
 }
-
+#blogfeed{
+	margin-right: .5em;
+}
 .dropdown-button{
 	background: black;
 }
