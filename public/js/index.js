@@ -36,7 +36,7 @@ $(document).ready(function(){
 	// });
 
 	$('#new-collection-btn').click(function(){
-		var collectionArray = ['github', 'imgur'];
+		var collectionArray = ['github'];
 		var collectionName = prompt("Please enter your collection name","First collection");;
 		make_new_collection(collectionName, collectionArray)
 	});
