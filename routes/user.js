@@ -37,7 +37,7 @@ module.exports = function(db){
 				access_token: req.body.token,
 				// refresh_token: req.body.refresh_token,
 				// endpoint: req.body.endpoints,
-				groupName: req.body.groupName
+				groupName: req.body.groupName || "Starter Kit"
 			};
 
 			db.userCrud('add','api',req.user, apiData, function(err, user){
