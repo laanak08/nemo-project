@@ -33,19 +33,14 @@ module.exports = function(){
 
 	var apiGroupSchema = mongoose.Schema({
 		name: { type: String },
-		apis: [ apiSchema ]
+		apiID: [{type: String}]
 	});
-
-	// var apiGroupSchema = mongoose.Schema({
-	// 	name: { type: String },
-	// 	apis: [apiSchema],
-	//	favorites: [ postSchema ]
-	// });
 
 	var userSchema = mongoose.Schema({
 		username: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		apiGroups: [ apiGroupSchema ]
+		apis: [apiSchema],
+		collections: [apiGroupSchema]
 	});
 
 	userSchema.pre('save', function(next) {
