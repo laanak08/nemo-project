@@ -124,7 +124,7 @@ function crud_api(operation, user, apiData, callback){
 	var apiIndex = -1,
 		groupIndex = find_group(user, apiData.groupName);
 	if(groupIndex !== -1)
-		apiIndex = find_api(user, groupIndex, apiData.name);
+		apiIndex = find_api(user, apiData.name, groupIndex);
 
 	switch(operation) {
 		case 'add':
@@ -202,10 +202,11 @@ function find_group(user, groupName){
 }
 
 function find_api(user, apiName, groupIndex){
+	console.log("groupIndex: "+groupIndex);
 	var numApis = user.apiGroups[groupIndex].apis.length;
 	for(var i = 0; i < numApis; i++){
 		var Api = user.apiGroups[groupIndex].apis[i];
-		if(Api.name === apiData.name) {
+		if(Api.name === apiName) {
 			return i;
 		}
 	}
