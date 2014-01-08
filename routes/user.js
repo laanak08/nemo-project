@@ -92,8 +92,11 @@ module.exports = function(db){
 		},
 
 		getApis: function(req, res){
-			var user = req.user;
 			var apiNames = [];
+			if(!req.user){
+				return res.send(apiNames);
+			}
+			var user = req.user;
 			for( var i = 0; i < user.apis.length; i++ ){
 				apiNames.push(user.apis[i].name);
 			}
