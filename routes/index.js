@@ -38,19 +38,20 @@ function get_user_content(req, res, render){
 		var access_token = Api.access_token;
 		var apiProvider = Api.name;
 
+		var numEndpoints = Api.endpoints.length;
+		for(var j = 0; j < numEndpoints; j++){
+			var endpoint = Api.endpoints[j];
 
-		var endpoint = Api.endpoints['favorites'];
+			// check if access token has expired
+			// 		yes: request new token
+			// 			update user account with new token
+			// 			load '/'
 
-		// check if access token has expired
-		// 		yes: request new token
-		// 			update user account with new token
-		// 			load '/'
-
-		console.log("access_token: " + access_token +
-		" apiProvider " + apiProvider +
-		" endpoint: " + endpoint);
-		funcs.push( genFunc(access_token, apiProvider, endpoint) );
-
+			console.log("access_token: " + access_token +
+			" apiProvider " + apiProvider +
+			" endpoint: " + endpoint);
+			funcs.push( genFunc(access_token, apiProvider, endpoint) );
+		}
 	}
 
 	async.parallel(funcs, function (err, results) {
