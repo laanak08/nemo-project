@@ -36,11 +36,26 @@ $(document).ready(function(){
 	// });
 
 	$('#new-collection-btn').click(function(){
-		var collectionArray = ['github'];
-		var collectionName = prompt("Please enter your collection name","First collection");;
-		make_new_collection(collectionName, collectionArray)
+		$.ajax({
+			method: 'GET',
+			url: '/apis',
+			success: function(data){
+				for( var i = 0; i < data.length; i++ ){
+					$('#api-picker').append('<input id="checkbox-'+data[i]+'" name="'+data[i]+'" type="checkbox"><label for="checkbox-'+data[i]+'">'+data[i]+'</label>');
+				}
+				$('#new-collection-modal').foundation('reveal', 'open');
+			}
+		});
 	});
 
+	$('#make-collection-btn').click(function(){
+		var seleceted = [];
+		$('#api-picker input:checked').each(function(){
+			seleceted.push($(this).attr('name'));
+		});
+		var collectionName = $('#collection-name-input').val();
+		make_new_collection(collectionName, seleceted);
+	});
 });
 
 function make_new_collection(collectionName, collectionArray){

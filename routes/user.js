@@ -89,6 +89,15 @@ module.exports = function(db){
 				}
 			}
 			res.send(apis);
+		},
+
+		getApis: function(req, res){
+			var user = req.user;
+			var apiNames = [];
+			for( var i = 0; i < user.apis.length; i++ ){
+				apiNames.push(user.apis[i].name);
+			}
+			res.send(apiNames);
 		}
 	};
 };
