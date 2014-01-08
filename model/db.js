@@ -131,9 +131,12 @@ function crud_api(operation, user, apiData, callback){
 			if(groupIndex !== -1){
 				if(apiIndex !== -1){
 					var Api = user.apiGroups[groupIndex].apis[apiIndex];
+					console.log("before add token new: "+apiData.access_token+" old: "+Api.access_token);
 					Api.access_token = apiData.access_token;
+					console.log("after add token new: "+apiData.access_token+" old: "+Api.access_token);
 					// Api.refresh_token = apiData.refresh_token;
 					// Api.endpoints = apiData.endpoints;
+
 				} else {
 					user.apiGroups[groupIndex].apis.push({
 						name: apiData.name,
