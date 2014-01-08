@@ -41,7 +41,7 @@ $(document).ready(function(){
 			url: '/apis',
 			success: function(data){
 				if(data.length <=0){
-					return alert('Sorry you need to be logged in to do that');
+					return alert('Sorry you need to have APIs to do that');
 				}
 				for( var i = 0; i < data.length; i++ ){
 					$('#api-picker').append('<input id="checkbox-'+data[i]+'" name="'+data[i]+'" type="checkbox"><label for="checkbox-'+data[i]+'">'+data[i]+'</label>');
