@@ -7,7 +7,7 @@ var request_module = require("request"),
 function default_page(render){
 	var images = [],
 		posts = [];
-	var guestOptions = ApiHandler.retrieveUser('no access_token', 'imgur', 'no url');
+	var guestOptions = ApiHandler.retrieveUser('no access_token', 'imgur', 'gallery');
 	request( guestOptions, function (error, response, body) {
 		images = ( Apis['imgur'].toHTML(body) );
 		posts.push(images);
@@ -15,8 +15,8 @@ function default_page(render){
 	});
 }
 
-var genFunc = function (access_token, apiProvider, url){
-	var options = ApiHandler.retrieveUser(access_token, apiProvider, url);
+var genFunc = function (access_token, apiProvider, endpoint){
+	var options = ApiHandler.retrieveUser(access_token, apiProvider, endpoint);
 	return function (callback){
 		request(options, function (e, r, body) {
 			console.log(apiProvider);
@@ -38,23 +38,23 @@ function get_user_content(req, res, render){
 		var access_token = Api.access_token;
 		var apiProvider = Api.name;
 
-		var numEndpoints = Api.endpoints.length;
-		for(var k = 0; k < numEndpoints; k++) {
 
-			var endpoint = Api.endpoints[k];
-			var url = Apis[apiProvider].endpoints[endpoint];
+		var endpoint = Api.endpoints['favorites'];
 
-			// check if access token has expired
-			// 		yes: request new token
-			// 			update user account with new token
-			// 			load '/'
+		// check if access token has expired
+		// 		yes: request new token
+		// 			update user account with new token
+		// 			load '/'
 
-			funcs.push( genFunc(access_token, apiProvider, url) );
-		}
+		console.log("access_token: " + access_token +
+		" apiProvider " + apiProvider +
+		" endpoint: " + endpoint);
+		funcs.push( genFunc(access_token, apiProvider, endpoint) );
+
 	}
 
 	async.parallel(funcs, function (err, results) {
-		if(err) { console.log("routes/index.js: "+err); res.send(500,"Server Error"); return; }
+		if(err) { console.log("routes/index.js(61): "+err); res.send(500,"Server Error"); return; }
 		render(results);
 	});
 }
