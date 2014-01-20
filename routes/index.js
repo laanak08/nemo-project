@@ -9,7 +9,7 @@ function default_page(render){
 		posts = [];
 	var guestOptions = ApiHandler.retrieveUser('no access_token', 'imgur', 'gallery');
 	request( guestOptions, function (error, response, body) {
-		images = ( Apis['imgur'].toHTML(body) );
+		images = ( Apis.imgur.toHTML(body) );
 		posts.push(images);
 		render(posts);
 	});
@@ -43,9 +43,9 @@ function get_user_content(req, res, render){
 			var endpoint = Api.endpoints[j];
 
 			// check if access token has expired
-			// 		yes: request new token
-			// 			update user account with new token
-			// 			load '/'
+			//		yes: request new token
+			//			update user account with new token
+			//			load '/'
 
 			console.log("access_token: " + access_token +
 			" apiProvider " + apiProvider +

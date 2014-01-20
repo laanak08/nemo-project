@@ -1,11 +1,11 @@
-<div class="contain-to-grid green-bottom-boarder">
+<div class="contain-to-grid green-bottom-border">
 	<nav class="tab-bar top-bar" data-topbar>
 
 		<section class="left-small">
 			<h1 style="margin-left:55px;"><a href="/">Nemo</a></h1>
 		</section>
 
-		<section class="left-small left-shadow-boarder">
+		<section class="left-small left-shadow-border">
 			<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
 		</section>
 
@@ -41,18 +41,18 @@
 </div>
 
 <aside class="left-off-canvas-menu">
-	<ul class="off-canvas-list">
-		<% if(user){ %>
-			<% for(var i = 0, numApiGroups = user.collections.length; i < numApiGroups; i++) { %>
-				<li id="<%= user.collections[i].name %>" class="collections">
-					<label><%= user.collections[i].name %></label>
-				</li>
+		<h3 class="header contain-to-grid">My Collections</h3>
+		<ul class="off-canvas-list">
+			<% if(user){ %>
+				<% for(var i = 0, numApiGroups = user.collections.length; i < numApiGroups; i++) { %>
+					<li id="<%= user.collections[i].name %>" class="collections">
+						<label><%= user.collections[i].name %></label>
+					</li>
+				<% } %>
 			<% } %>
-		<% } %>
-	</ul>
-	<button id="new-collection-btn" class="alert expand">New Collection</button>
-	<%- include add-collection-modal.ejs %>
-	<div class="reveal-modal-bg" style="display: none"></div>
-
+		</ul>
+		<button id="new-collection-btn" class="alert expand">New Collection</button>
+		<%- include add-collection-modal.ejs %>
+		<div class="reveal-modal-bg" style="display: none"></div>
 </aside>
 

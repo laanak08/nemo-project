@@ -1,0 +1,7 @@
+Problem:
+Every person has a setlist of websites they visit every day for its daily updating content. Some sites on the list  are visited for the same reason as other sites on the list and therefore could have their content grouped together. Due to the fact that the sites are all independent, their content is spread across the net and the poor user is forced to visit all of them. 
+
+Additionally, If a person finds something on any of these sites, their options for sharing that content with their social network is a haphazard array of "share to" buttons on each of these websites. Further complicating the problem, these sharing options force users to pollute the original intent of facebook, by turning peoples walls into a link-dump.
+
+Solution:
+My app solves this problem by creating a space for users to Twitter-esqe subscribe to other people, and share content. Also, my app reaches out to all sites with an API and brings all content to users in one place and allows users to categorize lists of sites' content into user-defined categories regardless of the source. So as a user, you can now get all your "funny internet pictures and videos and cute recipes" on one feed intermingling, and can call that particular special mix of content from those sources in particular, something you think makes sense!

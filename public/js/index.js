@@ -1,4 +1,3 @@
-'use strict';
 $(document).ready(function(){
 	OAuth.initialize('XjlzBRnDXCXYM9pRjBIisrXK8Kc');
 
@@ -125,8 +124,8 @@ function add_api(apiProvider){
 	});
 }
 
-//var apiList = [];
+// var apiList = [];
 // $(".apiList").click(function(){
-// 	var api = $(this).attr("id");
-// 	apiList.push(api);
+// var api = $(this).attr("id");
+// apiList.push(api);
 // });
