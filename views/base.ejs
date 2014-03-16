@@ -48,6 +48,7 @@
 	<script src="/js/index.js"></script>
 	<!-- Initialize foundation -->
 	<script>
+		Foundation.set_namespace = function() {};
 		$(document).foundation();
 	</script>
 	<script> $(document).ready(function(){ select_page_tab(<%= activePage %>); });</script>
