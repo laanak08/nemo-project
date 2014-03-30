@@ -9,13 +9,14 @@ function default_page(render){
 		posts = [];
 	var guestOptions = ApiHandler.retrieveUser('no access_token', 'imgur', 'gallery');
 	request( guestOptions, function (error, response, body) {
-		images = ( Apis.imgur.toHTML(body) );
+		images = Apis.imgur.toHTML(body); // removed enclosing parens
+		// images = ( Apis.imgur.toHTML(body) ); //this is the original
 		posts.push(images);
 		render(posts);
 	});
 }
 
-var genFunc = function (access_token, apiProvider, endpoint){
+function generate_function(access_token, apiProvider, endpoint){
 	var options = ApiHandler.retrieveUser(access_token, apiProvider, endpoint);
 	return function (callback){
 		request(options, function (e, r, body) {
@@ -25,9 +26,9 @@ var genFunc = function (access_token, apiProvider, endpoint){
 			callback(false, html);
 		});
 	};
-};
+}
 
-function get_user_content(req, res, render){
+function get_user_content(req, res, callback_render){
 	var user = req.user;
 	var funcs = [];
 	var numApis = user.apis.length;
@@ -50,13 +51,17 @@ function get_user_content(req, res, render){
 			console.log("access_token: " + access_token +
 			" apiProvider " + apiProvider +
 			" endpoint: " + endpoint);
-			funcs.push( genFunc(access_token, apiProvider, endpoint) );
+			funcs.push( generate_function(access_token, apiProvider, endpoint) );
 		}
 	}
 
 	async.parallel(funcs, function (err, results) {
-		if(err) { console.log("routes/index.js(61): "+err); res.send(500,"Server Error"); return; }
-		render(results);
+		if(err) { 
+			console.log("routes/index.js(61): "+err);
+			res.send(500,"Server Error"); 
+			return; 
+		}
+		callback_render(results);
 	});
 }
 
@@ -72,21 +77,25 @@ module.exports = function (db){
 	return {
 		friend_feed: function (req, res){
 			new_content( req, res, function (data){
+				// FIXME: build appropriate response
 				res.render('posts', { theBody: data, user: req.user, activePage: 'buzzfeed' });
 			});
 		},
 		new_content: function (req, res){
 			new_content( req, res, function (data){
+				// res.render('posts', { theBody: data, user: req.user, activePage: 'newfeed' });
 				res.render('posts', { theBody: data, user: req.user, activePage: 'newfeed' });
 			});
 		},
 		favorites: function (req, res){
 			new_content( req, res, function (data){
+				// FIXME: build appropriate response
 				res.render('posts', { theBody: data, user: req.user, activePage: 'favorites' });
 			});
 		},
 		blog: function (req, res){
 			new_content( req, res, function (data){
+				// FIXME: build appropriate response
 				res.render('posts', { theBody: data, user: req.user, activePage: 'blogfeed' });
 			});
 		}

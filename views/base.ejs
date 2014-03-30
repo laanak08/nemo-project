@@ -17,31 +17,30 @@
 
 <body>
 
-	<!-- Set Up Off Screen Canvas -->
+	<!-- Off Screen Canvas -->
 	<div class="fixed">
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">
 
-				<!-- Include Responsive Navigation Bar -->
+				<!-- Include Navigation Bar -->
 				<%- include partials/header.ejs %>
 
 				<!-- Main Content -->
 				<section class="main-section">
-					<div class="row">
-						<div id="allPosts" class="large-12 columns">
+					<!-- <div class="row"> -->
+						<div id="allPosts"><!--  class="medium-12 columns"> -->
 							<%- body %>
 						</div>
-					</div>
+					<!-- </div> -->
 				</section>
 
-			<a class="exit-off-canvas"></a>
+				<a class="exit-off-canvas"></a>
 			</div>
 		</div>
 	</div>
 
 	<!-- Include Javascript -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
 	<script src="/foundation/js/foundation.min.js"></script>
 	<script src="/foundation/js/foundation/foundation.topbar.js"></script>
 	<script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
@@ -52,7 +51,9 @@
 		Foundation.set_namespace = function() {};
 		$(document).foundation();
 	</script>
-	<script> $(document).ready(function(){ select_page_tab(<%= activePage %>); });</script>
+<!-- 	<script> 
+		$(document).ready(function(){ select_page_tab(<%= activePage %>); });
+	</script> -->
 
 </body>
 </html>

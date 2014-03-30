@@ -6,8 +6,8 @@ html {
 
 .main-section{
 	/*background-color: #121211; */ /*original*/
-	/*background-color: #333333;*/
-	background-image: url('../images/Background.png');
+	background-color: #FFF;
+	/*background-image: url('../images/Background.png');*/
 	height: 100vh;
 	width: 100vw;
 	overflow: scroll;
@@ -27,11 +27,11 @@ html {
 }
 
 .post{
-	background: white;
+/*	background: white;
 	padding: 1em;
 	margin: .75em;
 	border-radius: 3px;
-	border: 1px solid #d86d35;
+	border: 1px solid #d86d35;*/
 }
 
 .side-panel-active{
