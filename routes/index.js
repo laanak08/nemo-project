@@ -16,16 +16,31 @@ function default_page(render){
 	});
 }
 
-function generate_function(access_token, apiProvider, endpoint){
+function generate_request_function(access_token, apiProvider, endpoint){
 	var options = ApiHandler.retrieveUser(access_token, apiProvider, endpoint);
 	return function (callback){
 		request(options, function (e, r, body) {
-			console.log(apiProvider);
 			if(e) return callback(e);
 			var html = Apis[apiProvider].toHTML(body);
-			callback(false, html);
+			// var post = Apis[apiProvider].toPostFormat(body);
+			callback(false, post);
+			// if( apiProvider === 'imgur') {
+			// 	console.log("outside " + apiProvider + " : " + body.status + "\n");
+			// 	if(body.status !== 403 ){
+			// 		console.log("inside " + apiProvider + " : " + body.status + "\n");
+			// 		callback(false, html);
+			// 	} else {
+			// 		var htmlAlert = "<p>Imgur token expired</p>";
+			// 		callback(false,htmlAlert);
+			// 	}
+			// }
 		});
 	};
+}
+function check_if_token_was_expired(responseBody){
+	if(responseBody.status !== 403 ){
+			callback(false, html);
+	}
 }
 
 function get_user_content(req, res, callback_render){
@@ -51,7 +66,7 @@ function get_user_content(req, res, callback_render){
 			console.log("access_token: " + access_token +
 			" apiProvider " + apiProvider +
 			" endpoint: " + endpoint);
-			funcs.push( generate_function(access_token, apiProvider, endpoint) );
+			funcs.push( generate_request_function(access_token, apiProvider, endpoint) );
 		}
 	}
 

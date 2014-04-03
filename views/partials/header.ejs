@@ -17,14 +17,18 @@
 
 		<section class="top-bar-section">
 			<ul class="right">
-				<li id="buzzfeed" ><a href="/buzz">The Buzz</a></li>
-				<li id="newfeed" ><a href="/new">New Stuff</a></li>
-				<li id="favorites" ><a href="/favorites">Favorites</a></li>
-				<li id="blogfeed" ><a href="/blog">My Blog</a></li>
-			<% if(user === undefined){ %>
+				<li id="buzzfeed"  class="feeds"><a href="/buzz">The Buzz</a></li>
+				<li id="newfeed"   class="feeds"><a href="/new" class="active button radius tiny">New Stuff</a></li>
+				<li id="favorites" class="feeds"><a href="/favorites">Favorites</a></li>
+				<li id="blogfeed"  class="feeds"><a href="/blog">My Blog</a></li>
+
+			<% if(!user){ %>
+
 				<li id="signinbutton"><a href="#"  class="alert button expand dropdown-button" data-reveal-id="signInModal">Sign In</a></li>
 				<%- include sign-in-modal.ejs %>
+
 			<% } else { %>
+
 				<li class="has-dropdown">
 					<a href="#" class="alert button">Welcome <%= user.username %>!</a>
 					<ul class="dropdown">
@@ -34,9 +38,11 @@
 				</li>
 				<%- include api-collections-modal.ejs %>
 				<div class="reveal-modal-bg" style="display: none"></div>
+
 			<% } %>
 			</ul>
 		</section>
+
 	</nav>
 </div>
 

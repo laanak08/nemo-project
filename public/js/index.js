@@ -10,13 +10,11 @@ $(document).ready(function(){
 	});
 
 	function first() {
-		//Code for first time click goes here
 		var collectionName = $(this).find('label').text();
 		get_collection(collectionName, this);
 		$(this).one("click", second);
 	}
 	function second() {
-		//Code for second time click goes here
 		var nextLabel = $(this).nextUntil('.collections');
 		console.log(nextLabel.text());
 		nextLabel.remove();
@@ -58,7 +56,46 @@ $(document).ready(function(){
 		var collectionName = $('#collection-name-input').val();
 		make_new_collection(collectionName, seleceted);
 	});
+
+
+	$('.feeds').click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		var feed;
+		var $clickedButton = $(this);
+		var id = $(this).attr('id');
+
+		if( ! id ){
+			id = $(this).attr('href');
+			feed = id;
+		} else {
+			feed = $(this).attr('id').replace('feed','');
+		}
+
+		$.ajax({
+			method: 'POST',
+			url: feed,
+			success: function(data){
+			// unselect old button && update selected feed button
+			$('.active').removeClass("active button tiny radius");
+			$clickedButton.addClass('active button tiny radius');
+			// update feed contents on page
+
+			}
+		});
+	});
 });
+
+function update_page_content(){
+		// <div class="row">
+		// 	<!-- <div class="row"> -->
+		// 		<div class="post medium-12 columns">
+		// 			<%- post %>
+		// 		</div>
+		// 	<!-- </div> -->
+		// </div>
+}
 
 function make_new_collection(collectionName, collectionArray){
 	$.ajax({
@@ -92,7 +129,7 @@ function get_collection(collectionName, that){
 
 function select_page_tab(page){
 	$(page).addClass("active");
-	$(page).find("a").addClass("button radius");
+	$(page).find("a").addClass("button tiny radius");
 }
 
 function add_api(apiProvider){
